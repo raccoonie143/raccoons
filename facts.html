@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fascinating Raccoon Facts</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Outfit', sans-serif;
+      background: linear-gradient(135deg, #fdfcfb, #e2d1c3);
+      color: #1f2937;
+    }
+
+    header {
+      background-color: #1f2937;
+      color: white;
+      padding: 1.2rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.7rem;
+      animation: wiggle 3s infinite;
+    }
+
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(3deg); }
+      50% { transform: rotate(-3deg); }
+      75% { transform: rotate(3deg); }
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: bold;
+      padding: 8px 16px;
+      border-radius: 20px;
+      background-color: orange;
+      transition: background 0.3s ease;
+    }
+
+    nav a:hover {
+      background-color: #ff9900;
+    }
+
+    .container {
+      padding: 2.5rem 1rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .hero {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+
+    .hero img {
+      width: 120px;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 2rem;
+      color: #ff6600;
+      margin-top: 3rem;
+    }
+
+    .card-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem;
+      width: 280px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+    }
+
+    .fun-fact {
+      background: #fff3e0;
+      margin-top: 3rem;
+      padding: 2rem;
+      border-radius: 20px;
+      text-align: center;
+      font-style: italic;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+    }
+
+    .back-button {
+      display: inline-block;
+      margin: 3rem auto;
+      padding: 1rem 2rem;
+      background-color: #1f2937;
+      color: white;
+      border-radius: 12px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .back-button:hover {
+      background-color: #374151;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background: #1f2937;
+      color: white;
+      font-size: 0.9rem;
+      margin-top: 4rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🦝 Raccoon Facts</h1>
+    <nav>
+      <a href="#facts">Facts</a>
+      <a href="#myths">Myths</a>
+      <a href="#gallery">Gallery</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <section class="hero">
+      <img src="https://mystickermania.com/cdn/stickers/animals/raccoon-sitting-512x512.png" alt="Raccoon">
+      <h2>Meet Nature's Clever Masked Bandits</h2>
+      <p>Did you know raccoons can remember solutions for years, solve puzzles, and even adapt to city life better than some humans?</p>
+    </section>
+
+    <h2 id="facts">Top Raccoon Facts</h2>
+    <div class="card-grid">
+      <div class="card"><h3>🧠 Genius-Level Memory</h3><p>Can remember puzzle solutions for over 3 years!</p></div>
+      <div class="card"><h3>✋ Super Sensory Paws</h3><p>2/3 of their brain’s sensory power is in their paws.</p></div>
+      <div class="card"><h3>🏙️ Urban Survivors</h3><p>City raccoons are smarter than rural ones—scientifically proven!</p></div>
+    </div>
+
+    <h2 id="myths">Busting Raccoon Myths</h2>
+    <div class="card-grid">
+      <div class="card"><h3>🧼 Washing Food?</h3><p>They're not washing—just feeling texture for quality!</p></div>
+      <div class="card"><h3>🌙 Only Night Owls?</h3><p>They're crepuscular—not strictly nocturnal. Smart timing!</p></div>
+    </div>
+
+    <h2 id="gallery">Gallery of Banditry</h2>
+    <div class="card-grid">
+      <div class="card"><h3>🍕 Pizza Thief</h3><p>Trash pizza tastes best stolen at 2am.</p></div>
+      <div class="card"><h3>🦝 Bandit King</h3><p>He didn’t choose the thug life. The thug life chose him.</p></div>
+    </div>
+
+    <div class="fun-fact">
+      "If raccoons had smartphones, they'd probably hack your WiFi to order more trash."
+    </div>
+
+    <a href="index.html" class="back-button">⬅ Back to Trash Panda Paradise</a>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Trash Panda Paradise. Fueled by snacks and raccoon mischief.</p>
+  </footer>
+
+</body>
+</html>

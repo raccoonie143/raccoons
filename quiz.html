@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Raccoon Knowledge Quiz</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Outfit', sans-serif;
+      background: linear-gradient(120deg, #fdfbfb, #ebedee);
+      color: #1f2937;
+    }
+
+    header {
+      background-color: #1f2937;
+      color: white;
+      padding: 1.2rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.7rem;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: bold;
+      padding: 8px 14px;
+      background-color: orange;
+      border-radius: 20px;
+      transition: background 0.3s ease;
+    }
+
+    nav a:hover {
+      background-color: #ff9900;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 3rem auto;
+      padding: 1rem;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    h2 {
+      text-align: center;
+      color: #ff6600;
+    }
+
+    .question {
+      margin-top: 2rem;
+    }
+
+    .question p {
+      font-weight: bold;
+    }
+
+    label {
+      display: block;
+      margin: 0.5rem 0;
+    }
+
+    .submit-btn {
+      display: block;
+      margin: 2rem auto 0;
+      padding: 0.8rem 1.5rem;
+      background-color: #1f2937;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      background-color: #374151;
+    }
+
+    .result {
+      margin-top: 2rem;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+      min-height: 40px;
+    }
+
+    .back-link {
+      display: block;
+      margin: 2rem auto;
+      text-align: center;
+      color: #1f2937;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .confetti {
+      animation: pop 0.4s ease forwards;
+      color: orange;
+      font-size: 2rem;
+      text-align: center;
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0.5); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🧠 Raccoon Quiz</h1>
+    <nav>
+      <a href="index.html">Back to Home</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h2>How Much Do You Know About Raccoons?</h2>
+
+    <form id="quizForm">
+      <div class="question">
+        <p>1. What do raccoons use their paws for the most?</p>
+        <label><input type="radio" name="q1" value="a"> Fighting</label>
+        <label><input type="radio" name="q1" value="b"> Sensing and feeling</label>
+        <label><input type="radio" name="q1" value="c"> Running</label>
+      </div>
+
+      <div class="question">
+        <p>2. What does it mean when a raccoon dunks its food in water?</p>
+        <label><input type="radio" name="q2" value="a"> Cleaning it</label>
+        <label><input type="radio" name="q2" value="b"> Enhancing touch sensitivity</label>
+        <label><input type="radio" name="q2" value="c"> Making it tastier</label>
+      </div>
+
+      <div class="question">
+        <p>3. When are raccoons most active?</p>
+        <label><input type="radio" name="q3" value="a"> Morning</label>
+        <label><input type="radio" name="q3" value="b"> Noon</label>
+        <label><input type="radio" name="q3" value="c"> Dawn and dusk</label>
+      </div>
+
+      <button type="button" class="submit-btn" onclick="checkAnswers()">Submit Answers</button>
+    </form>
+
+    <div class="result" id="result"></div>
+    <div class="confetti" id="confetti"></div>
+
+    <a class="back-link" href="index.html">⬅ Return to Trash Panda Paradise</a>
+  </div>
+
+  <script>
+    function checkAnswers() {
+      const answers = {
+        q1: 'b',
+        q2: 'b',
+        q3: 'c'
+      };
+
+      let score = 0;
+      for (const question in answers) {
+        const radios = document.getElementsByName(question);
+        for (const radio of radios) {
+          if (radio.checked && radio.value === answers[question]) {
+            score++;
+          }
+        }
+      }
+
+      const result = document.getElementById('result');
+      const confetti = document.getElementById('confetti');
+      confetti.textContent = '';
+
+      if (score === 3) {
+        result.textContent = `🎉 Perfect! You're a true trash panda expert! (${score}/3)`;
+        confetti.textContent = '🎊🎊🎊';
+      } else if (score === 2) {
+        result.textContent = `🧐 Almost there! You know your raccoons pretty well. (${score}/3)`;
+      } else {
+        result.textContent = `😅 Better luck next time! Maybe study more trash panda facts. (${score}/3)`;
+      }
+    }
+  </script>
+</body>
+</html>

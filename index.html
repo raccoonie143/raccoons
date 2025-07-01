@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Trash Panda Paradise</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background-color: #f4f6f8;
+      color: #1f2937;
+    }
+
+    header {
+      background-color: #1f2937;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: white;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      transition: transform 0.3s;
+    }
+
+    header h1:hover {
+      transform: scale(1.05);
+    }
+
+    nav a {
+      margin: 0 1rem;
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      position: relative;
+      transition: color 0.3s;
+    }
+
+    nav a::after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 2px;
+      background: orange;
+      transition: width 0.3s;
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    nav a:hover {
+      color: orange;
+    }
+
+    .container {
+      padding: 2rem;
+    }
+
+    .hero {
+      background-color: #ffffff;
+      border-radius: 10px;
+      padding: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      transition: transform 0.3s;
+    }
+
+    .hero:hover {
+      transform: scale(1.01);
+    }
+
+    .hero-text {
+      max-width: 60%;
+    }
+
+    .hero h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .buttons button {
+      margin-right: 1rem;
+      padding: 0.7rem 1.2rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .buttons button:hover {
+      transform: scale(1.05);
+    }
+
+    .btn-yellow {
+      background-color: orange;
+      color: white;
+    }
+
+    .btn-outline {
+      border: 2px solid #ccc;
+      background: transparent;
+      color: #333;
+    }
+
+    .features {
+      margin-top: 3rem;
+    }
+
+    .features h3 {
+      font-size: 1.5rem;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .cards {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 1.5rem;
+      width: 250px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+
+    .card h4 {
+      margin-top: 0.5rem;
+    }
+
+    .joke-section {
+      background: orange;
+      padding: 2rem;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 10px;
+      margin-top: 3rem;
+      transition: transform 0.3s;
+    }
+
+    .joke-section:hover {
+      transform: scale(1.01);
+    }
+
+    .joke-section button {
+      background: white;
+      color: orange;
+      border: none;
+      padding: 0.7rem 1.2rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: transform 0.2s;
+    }
+
+    .joke-section button:hover {
+      transform: scale(1.05);
+    }
+
+    .collection {
+      margin-top: 3rem;
+      text-align: center;
+    }
+
+    .trash-items {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .item {
+      background: white;
+      padding: 1rem 2rem;
+      border-radius: 10px;
+      cursor: pointer;
+      border: 2px solid #ccc;
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .item:hover {
+      background: #e2e8f0;
+      transform: scale(1.05);
+      animation: trashBounce 0.6s ease;
+    }
+
+    .collected {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      border: 2px dashed #ccc;
+      min-height: 80px;
+      transition: background-color 0.3s ease;
+    }
+
+    .hero img {
+      animation: raccoonWiggle 3s infinite ease-in-out;
+      transform-origin: center center;
+    }
+
+    @keyframes raccoonWiggle {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(5deg); }
+      50% { transform: rotate(-5deg); }
+      75% { transform: rotate(5deg); }
+    }
+
+    @keyframes trashBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🦝 Trash Panda Paradise</h1>
+    <nav>
+      <a href="#">Home</a>
+      <a href="facts.html">Raccoon Facts</a>
+      <a href="quiz.html">Raccoon Quiz</a>
+      <a href="about.html">About Us</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="hero">
+      <div class="hero-text">
+        <h2>Welcome to Trash Panda Paradise!</h2>
+        <p>Your one-stop destination for all things raccoon. Dive into the fascinating world of these masked bandits and discover why they’re nature’s most adorable dumpster divers!</p>
+        <div class="buttons">
+          <a href="facts.html"><button class="btn-yellow">Explore Facts</button></a>
+          <a href="quiz.html"><button class="btn-outline">Take the Quiz</button></a>
+        </div>
+      </div>
+      <img src="https://mystickermania.com/cdn/stickers/animals/raccoon-sitting-512x512.png" alt="Cute Raccoon" width="150">
+    </div>
+
+    <section class="features">
+      <h3>Why Raccoons Are Awesome</h3>
+      <div class="cards">
+        <div class="card">
+          <h4>💡 Clever Problem Solvers</h4>
+          <p>Raccoons can remember solutions to tasks for up to three years. Basically, the Einstein of the animal kingdom—if Einstein loved trash.</p>
+        </div>
+        <div class="card">
+          <h4>🖐️ Sensitive Hands</h4>
+          <p>Their front paws have nearly four times more sensory receptors. Nature’s pickpockets!</p>
+        </div>
+        <div class="card">
+          <h4>😎 Masters of Disguise</h4>
+          <p>With their "bandit masks," raccoons are criminally adorable. They’re not hiding—they’re fabulous.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="joke-section" id="jokeSection">
+      <div>
+        <h3>Raccoon Joke of the Day</h3>
+        <p id="joke"><em>"Why don't raccoons use recipes when cooking? Because they prefer to trash it up as they go!"</em></p>
+      </div>
+      <button onclick="getAnotherJoke()">Get Another Joke</button>
+    </section>
+
+    <section class="collection">
+      <h3>Interactive Trash Collection</h3>
+      <p>Help our raccoon friend collect treasures! Click items to add them below.</p>
+      <div class="trash-items">
+        <div class="item" onclick="addToCollection('🍕 Pizza Crust')">🍕 Pizza Crust</div>
+        <div class="item" onclick="addToCollection('🍎 Apple Core')">🍎 Apple Core</div>
+        <div class="item" onclick="addToCollection('🥫 Shiny Can')">🥫 Shiny Can</div>
+        <div class="item" onclick="addToCollection('🍩 Half Donut')">🍩 Half Donut</div>
+      </div>
+      <div class="collected" id="collected">
+        <strong>Raccoon's Collection:</strong><br>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const jokes = [
+      "Why don't raccoons use recipes when cooking? Because they prefer to trash it up as they go!",
+      "Why did the raccoon cross the road? Because the trash was greener on the other side!",
+      "What do you call a raccoon that can play the piano? A trash virtuoso!",
+      "Why did the raccoon bring a ladder to the bar? Because it heard the drinks were on the house!",
+      "What do raccoons do when they get bored? They go dumpster diving for fun!"
+    ];
+
+    function getAnotherJoke() {
+      const randomIndex = Math.floor(Math.random() * jokes.length);
+      const jokeSection = document.getElementById('jokeSection');
+      jokeSection.classList.add('shake');
+      setTimeout(() => {
+        jokeSection.classList.remove('shake');
+      }, 500);
+      document.getElementById('joke').innerHTML = `<em>"${jokes[randomIndex]}"</em>`;
+    }
+
+    function addToCollection(item) {
+      const container = document.getElementById('collected');
+      container.innerHTML += `${item} `;
+    }
+  </script>
+</body>
+</html>
