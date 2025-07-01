@@ -6,15 +6,36 @@
   <title>Raccoon Knowledge Quiz</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg: linear-gradient(120deg, #fdfbfb, #ebedee);
+      --text-color: #1f2937;
+      --header-bg: #1f2937;
+      --card-bg: white;
+      --button-bg: #1f2937;
+      --button-hover-bg: #374151;
+      --link-color: #1f2937;
+    }
+
+    body.dark {
+      --bg: linear-gradient(120deg, #2c2c2c, #1a1a1a);
+      --text-color: #e0e0e0;
+      --header-bg: #111;
+      --card-bg: #2a2a2a;
+      --button-bg: #ff9800;
+      --button-hover-bg: #ffab40;
+      --link-color: #ffcc80;
+    }
+
     body {
       margin: 0;
       font-family: 'Outfit', sans-serif;
-      background: linear-gradient(120deg, #fdfbfb, #ebedee);
-      color: #1f2937;
+      background: var(--bg);
+      color: var(--text-color);
+      transition: background 0.4s, color 0.4s;
     }
 
     header {
-      background-color: #1f2937;
+      background-color: var(--header-bg);
       color: white;
       padding: 1.2rem 2rem;
       display: flex;
@@ -42,11 +63,21 @@
       background-color: #ff9900;
     }
 
+    .toggle-btn {
+      background: none;
+      border: 2px solid white;
+      border-radius: 6px;
+      padding: 6px 10px;
+      margin-left: 1rem;
+      cursor: pointer;
+      color: white;
+    }
+
     .container {
       max-width: 800px;
       margin: 3rem auto;
       padding: 1rem;
-      background: white;
+      background: var(--card-bg);
       border-radius: 20px;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
     }
@@ -73,7 +104,7 @@
       display: block;
       margin: 2rem auto 0;
       padding: 0.8rem 1.5rem;
-      background-color: #1f2937;
+      background-color: var(--button-bg);
       color: white;
       border: none;
       border-radius: 10px;
@@ -83,7 +114,7 @@
     }
 
     .submit-btn:hover {
-      background-color: #374151;
+      background-color: var(--button-hover-bg);
     }
 
     .result {
@@ -98,7 +129,7 @@
       display: block;
       margin: 2rem auto;
       text-align: center;
-      color: #1f2937;
+      color: var(--link-color);
       font-weight: bold;
       text-decoration: none;
     }
@@ -121,6 +152,7 @@
     <h1>🧠 Raccoon Quiz</h1>
     <nav>
       <a href="index.html">Back to Home</a>
+      <button class="toggle-btn" onclick="toggleDarkMode()">🌙</button>
     </nav>
   </header>
 
@@ -188,6 +220,10 @@
       } else {
         result.textContent = `😅 Better luck next time! Maybe study more trash panda facts. (${score}/3)`;
       }
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark');
     }
   </script>
 </body>
