@@ -7,35 +7,33 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: linear-gradient(120deg, #fdfbfb, #ebedee);
-      --text-color: #1f2937;
-      --header-bg: #1f2937;
-      --card-bg: white;
+      --bg: #fdfbfb;
+      --text: #1f2937;
+      --card: white;
+      --accent: orange;
       --button-bg: #1f2937;
-      --button-hover-bg: #374151;
-      --link-color: #1f2937;
+      --button-text: white;
     }
 
     body.dark {
-      --bg: linear-gradient(120deg, #2c2c2c, #1a1a1a);
-      --text-color: #e0e0e0;
-      --header-bg: #111;
-      --card-bg: #2a2a2a;
-      --button-bg: #ff9800;
-      --button-hover-bg: #ffab40;
-      --link-color: #ffcc80;
+      --bg: #1a1a1a;
+      --text: #f0f0f0;
+      --card: #2a2a2a;
+      --accent: #ffa726;
+      --button-bg: #f0f0f0;
+      --button-text: #1a1a1a;
     }
 
     body {
       margin: 0;
       font-family: 'Outfit', sans-serif;
       background: var(--bg);
-      color: var(--text-color);
-      transition: background 0.4s, color 0.4s;
+      color: var(--text);
+      transition: background 0.3s, color 0.3s;
     }
 
     header {
-      background-color: var(--header-bg);
+      background-color: #1f2937;
       color: white;
       padding: 1.2rem 2rem;
       display: flex;
@@ -54,7 +52,7 @@
       margin-left: 20px;
       font-weight: bold;
       padding: 8px 14px;
-      background-color: orange;
+      background-color: var(--accent);
       border-radius: 20px;
       transition: background 0.3s ease;
     }
@@ -63,28 +61,28 @@
       background-color: #ff9900;
     }
 
-    .toggle-btn {
+    .dark-toggle {
+      margin-left: 1rem;
+      padding: 6px 10px;
+      border-radius: 8px;
       background: none;
       border: 2px solid white;
-      border-radius: 6px;
-      padding: 6px 10px;
-      margin-left: 1rem;
-      cursor: pointer;
       color: white;
+      cursor: pointer;
     }
 
     .container {
       max-width: 800px;
       margin: 3rem auto;
       padding: 1rem;
-      background: var(--card-bg);
+      background: var(--card);
       border-radius: 20px;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
     }
 
     h2 {
       text-align: center;
-      color: #ff6600;
+      color: var(--accent);
     }
 
     .question {
@@ -105,7 +103,7 @@
       margin: 2rem auto 0;
       padding: 0.8rem 1.5rem;
       background-color: var(--button-bg);
-      color: white;
+      color: var(--button-text);
       border: none;
       border-radius: 10px;
       font-weight: bold;
@@ -114,7 +112,7 @@
     }
 
     .submit-btn:hover {
-      background-color: var(--button-hover-bg);
+      opacity: 0.9;
     }
 
     .result {
@@ -129,14 +127,14 @@
       display: block;
       margin: 2rem auto;
       text-align: center;
-      color: var(--link-color);
+      color: var(--text);
       font-weight: bold;
       text-decoration: none;
     }
 
     .confetti {
       animation: pop 0.4s ease forwards;
-      color: orange;
+      color: var(--accent);
       font-size: 2rem;
       text-align: center;
     }
@@ -152,7 +150,7 @@
     <h1>🧠 Raccoon Quiz</h1>
     <nav>
       <a href="index.html">Back to Home</a>
-      <button class="toggle-btn" onclick="toggleDarkMode()">🌙</button>
+      <button onclick="toggleDarkMode()" class="dark-toggle">🌙</button>
     </nav>
   </header>
 
@@ -191,6 +189,19 @@
   </div>
 
   <script>
+    function applyDarkModeSetting() {
+      const isDark = localStorage.getItem('dark-mode') === 'true';
+      document.body.classList.toggle('dark', isDark);
+    }
+
+    function toggleDarkMode() {
+      const isDark = !document.body.classList.contains('dark');
+      document.body.classList.toggle('dark', isDark);
+      localStorage.setItem('dark-mode', isDark);
+    }
+
+    applyDarkModeSetting();
+
     function checkAnswers() {
       const answers = {
         q1: 'b',
@@ -220,10 +231,6 @@
       } else {
         result.textContent = `😅 Better luck next time! Maybe study more trash panda facts. (${score}/3)`;
       }
-    }
-
-    function toggleDarkMode() {
-      document.body.classList.toggle('dark');
     }
   </script>
 </body>
