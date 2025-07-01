@@ -6,15 +6,42 @@
   <title>Fascinating Raccoon Facts</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #fdfcfb, #e2d1c3);
+      --text-color: #1f2937;
+      --header-bg: #1f2937;
+      --card-bg: white;
+      --fact-bg: #fff3e0;
+      --btn-bg: #1f2937;
+      --btn-hover: #374151;
+      --footer-bg: #1f2937;
+      --nav-btn-bg: orange;
+      --nav-btn-hover: #ff9900;
+    }
+
+    body.dark {
+      --bg-gradient: linear-gradient(135deg, #1a1a1a, #2c2c2c);
+      --text-color: #e0e0e0;
+      --header-bg: #111;
+      --card-bg: #2a2a2a;
+      --fact-bg: #3a2f20;
+      --btn-bg: #333;
+      --btn-hover: #555;
+      --footer-bg: #111;
+      --nav-btn-bg: #ff9800;
+      --nav-btn-hover: #ffb84d;
+    }
+
     body {
       margin: 0;
       font-family: 'Outfit', sans-serif;
-      background: linear-gradient(135deg, #fdfcfb, #e2d1c3);
-      color: #1f2937;
+      background: var(--bg-gradient);
+      color: var(--text-color);
+      transition: background 0.3s, color 0.3s;
     }
 
     header {
-      background-color: #1f2937;
+      background-color: var(--header-bg);
       color: white;
       padding: 1.2rem 2rem;
       display: flex;
@@ -27,6 +54,17 @@
       margin: 0;
       font-size: 1.7rem;
       animation: wiggle 3s infinite;
+    }
+
+    .toggle-btn {
+      background: none;
+      border: 2px solid white;
+      color: white;
+      border-radius: 8px;
+      padding: 0.3rem 0.7rem;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-left: 1rem;
     }
 
     @keyframes wiggle {
@@ -43,12 +81,12 @@
       font-weight: bold;
       padding: 8px 16px;
       border-radius: 20px;
-      background-color: orange;
+      background-color: var(--nav-btn-bg);
       transition: background 0.3s ease;
     }
 
     nav a:hover {
-      background-color: #ff9900;
+      background-color: var(--nav-btn-hover);
     }
 
     .container {
@@ -58,7 +96,7 @@
     }
 
     .hero {
-      background: #fff;
+      background: var(--card-bg);
       padding: 2rem;
       border-radius: 20px;
       text-align: center;
@@ -91,7 +129,7 @@
     }
 
     .card {
-      background: white;
+      background: var(--card-bg);
       border-radius: 16px;
       padding: 1.5rem;
       width: 280px;
@@ -105,7 +143,7 @@
     }
 
     .fun-fact {
-      background: #fff3e0;
+      background: var(--fact-bg);
       margin-top: 3rem;
       padding: 2rem;
       border-radius: 20px;
@@ -118,7 +156,7 @@
       display: inline-block;
       margin: 3rem auto;
       padding: 1rem 2rem;
-      background-color: #1f2937;
+      background-color: var(--btn-bg);
       color: white;
       border-radius: 12px;
       font-weight: bold;
@@ -127,13 +165,13 @@
     }
 
     .back-button:hover {
-      background-color: #374151;
+      background-color: var(--btn-hover);
     }
 
     footer {
       text-align: center;
       padding: 2rem;
-      background: #1f2937;
+      background: var(--footer-bg);
       color: white;
       font-size: 0.9rem;
       margin-top: 4rem;
@@ -141,13 +179,13 @@
   </style>
 </head>
 <body>
-
   <header>
     <h1>🦝 Raccoon Facts</h1>
     <nav>
       <a href="#facts">Facts</a>
       <a href="#myths">Myths</a>
       <a href="#gallery">Gallery</a>
+      <button class="toggle-btn" onclick="toggleDarkMode()">🌙</button>
     </nav>
   </header>
 
@@ -162,7 +200,7 @@
     <div class="card-grid">
       <div class="card"><h3>🧠 Genius-Level Memory</h3><p>Can remember puzzle solutions for over 3 years!</p></div>
       <div class="card"><h3>✋ Super Sensory Paws</h3><p>2/3 of their brain’s sensory power is in their paws.</p></div>
-      <div class="card"><h3>🏙️ Urban Survivors</h3><p>City raccoons are smarter than rural ones—scientifically proven!</p></div>
+      <div class="card"><h3>🏟️ Urban Survivors</h3><p>City raccoons are smarter than rural ones—scientifically proven!</p></div>
     </div>
 
     <h2 id="myths">Busting Raccoon Myths</h2>
@@ -188,5 +226,12 @@
     <p>&copy; 2025 Trash Panda Paradise. Fueled by snacks and raccoon mischief.</p>
   </footer>
 
+  <script>
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark');
+      const btn = document.querySelector('.toggle-btn');
+      btn.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+    }
+  </script>
 </body>
 </html>
