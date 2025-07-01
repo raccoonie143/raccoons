@@ -5,15 +5,42 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Trash Panda Paradise</title>
   <style>
+    :root {
+      --bg-color: #f4f6f8;
+      --text-color: #1f2937;
+      --header-bg: #1f2937;
+      --card-bg: white;
+      --joke-bg: orange;
+      --btn-bg: orange;
+      --btn-outline-color: #333;
+      --item-bg: white;
+      --item-hover-bg: #e2e8f0;
+      --collected-bg: transparent;
+    }
+
+    body.dark {
+      --bg-color: #1f1f1f;
+      --text-color: #e0e0e0;
+      --header-bg: #111;
+      --card-bg: #2a2a2a;
+      --joke-bg: #444;
+      --btn-bg: #ff9800;
+      --btn-outline-color: #ccc;
+      --item-bg: #2e2e2e;
+      --item-hover-bg: #3a3a3a;
+      --collected-bg: #222;
+    }
+
     body {
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
-      background-color: #f4f6f8;
-      color: #1f2937;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: background-color 0.3s, color 0.3s;
     }
 
     header {
-      background-color: #1f2937;
+      background-color: var(--header-bg);
       padding: 1rem 2rem;
       display: flex;
       align-items: center;
@@ -59,12 +86,26 @@
       color: orange;
     }
 
+    .dark-toggle {
+      background: none;
+      border: 2px solid white;
+      color: white;
+      border-radius: 6px;
+      padding: 0.3rem 0.8rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .dark-toggle:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
     .container {
       padding: 2rem;
     }
 
     .hero {
-      background-color: #ffffff;
+      background-color: var(--card-bg);
       border-radius: 10px;
       padding: 2rem;
       display: flex;
@@ -102,14 +143,14 @@
     }
 
     .btn-yellow {
-      background-color: orange;
+      background-color: var(--btn-bg);
       color: white;
     }
 
     .btn-outline {
       border: 2px solid #ccc;
       background: transparent;
-      color: #333;
+      color: var(--btn-outline-color);
     }
 
     .features {
@@ -130,7 +171,7 @@
     }
 
     .card {
-      background: white;
+      background: var(--card-bg);
       border-radius: 10px;
       padding: 1.5rem;
       width: 250px;
@@ -148,7 +189,7 @@
     }
 
     .joke-section {
-      background: orange;
+      background: var(--joke-bg);
       padding: 2rem;
       color: white;
       display: flex;
@@ -191,7 +232,7 @@
     }
 
     .item {
-      background: white;
+      background: var(--item-bg);
       padding: 1rem 2rem;
       border-radius: 10px;
       cursor: pointer;
@@ -200,7 +241,7 @@
     }
 
     .item:hover {
-      background: #e2e8f0;
+      background: var(--item-hover-bg);
       transform: scale(1.05);
       animation: trashBounce 0.6s ease;
     }
@@ -210,6 +251,7 @@
       padding: 1rem;
       border: 2px dashed #ccc;
       min-height: 80px;
+      background-color: var(--collected-bg);
       transition: background-color 0.3s ease;
     }
 
@@ -239,6 +281,7 @@
       <a href="facts.html">Raccoon Facts</a>
       <a href="quiz.html">Raccoon Quiz</a>
       <a href="about.html">About Us</a>
+      <button class="dark-toggle" id="themeToggle" onclick="toggleDarkMode()">🌙</button>
     </nav>
   </header>
 
@@ -252,7 +295,7 @@
           <a href="quiz.html"><button class="btn-outline">Take the Quiz</button></a>
         </div>
       </div>
-      <img src="https://mystickermania.com/cdn/stickers/animals/raccoon-sitting-512x512.png" alt="Cute Raccoon" width="150">
+      <img src="https://example.com/path/to/your/raccoon-image.png" alt="Cute Raccoon" width="150">
     </div>
 
     <section class="features">
@@ -305,8 +348,15 @@
       "What do raccoons do when they get bored? They go dumpster diving for fun!"
     ];
 
+    let lastJokeIndex = -1;
+
     function getAnotherJoke() {
-      const randomIndex = Math.floor(Math.random() * jokes.length);
+      let randomIndex;
+      do {
+        randomIndex = Math.floor(Math.random() * jokes.length);
+      } while (randomIndex === lastJokeIndex);
+      
+      lastJokeIndex = randomIndex;
       const jokeSection = document.getElementById('jokeSection');
       jokeSection.classList.add('shake');
       setTimeout(() => {
@@ -318,6 +368,13 @@
     function addToCollection(item) {
       const container = document.getElementById('collected');
       container.innerHTML += `${item} `;
+    }
+
+    function toggleDarkMode() {
+      const body = document.body;
+      const toggleBtn = document.getElementById('themeToggle');
+      body.classList.toggle('dark');
+      toggleBtn.textContent = body.classList.contains('dark') ? '☀️' : '🌙';
     }
   </script>
 </body>
