@@ -150,7 +150,7 @@
     <h1>🧠 Raccoon Quiz</h1>
     <nav>
       <a href="index.html">Back to Home</a>
-      <button onclick="toggleDarkMode()" class="dark-toggle">🌙</button>
+      <button onclick="toggleDarkMode()" class="dark-toggle" id="themeToggle">🌙</button>
     </nav>
   </header>
 
@@ -189,18 +189,21 @@
   </div>
 
   <script>
-    function applyDarkModeSetting() {
-      const isDark = localStorage.getItem('dark-mode') === 'true';
-      document.body.classList.toggle('dark', isDark);
-    }
-
     function toggleDarkMode() {
-      const isDark = !document.body.classList.contains('dark');
-      document.body.classList.toggle('dark', isDark);
-      localStorage.setItem('dark-mode', isDark);
+      const body = document.body;
+      const toggle = document.getElementById('themeToggle');
+      const isDark = body.classList.toggle('dark');
+      toggle.textContent = isDark ? '☀️' : '🌙';
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
     }
 
-    applyDarkModeSetting();
+    function applyStoredTheme() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        document.body.classList.add('dark');
+        document.getElementById('themeToggle').textContent = '☀️';
+      }
+    }
 
     function checkAnswers() {
       const answers = {
@@ -232,6 +235,9 @@
         result.textContent = `😅 Better luck next time! Maybe study more trash panda facts. (${score}/3)`;
       }
     }
+
+    // Apply theme on load
+    applyStoredTheme();
   </script>
 </body>
 </html>
