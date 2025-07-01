@@ -6,19 +6,38 @@
   <title>About Us - Trash Panda Paradise</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #fff5e6, #ffe4cc);
+      --text-color: #333;
+      --card-bg: white;
+      --highlight: orange;
+      --header-bg: #1f2937;
+      --footer-bg: #1f2937;
+    }
+
+    body.dark {
+      --bg-gradient: linear-gradient(135deg, #1a1a1a, #2c2c2c);
+      --text-color: #ddd;
+      --card-bg: #333;
+      --highlight: #ff9800;
+      --header-bg: #111;
+      --footer-bg: #111;
+    }
+
     body {
       margin: 0;
       font-family: 'Outfit', sans-serif;
-      background: linear-gradient(135deg, #fff5e6, #ffe4cc);
-      color: #333;
+      background: var(--bg-gradient);
+      color: var(--text-color);
       display: flex;
       flex-direction: column;
       min-height: 100vh;
       animation: fadeIn 1s ease-in;
+      transition: background 0.3s, color 0.3s;
     }
 
     header {
-      background-color: #1f2937;
+      background-color: var(--header-bg);
       color: white;
       padding: 1.2rem 2rem;
       display: flex;
@@ -38,7 +57,7 @@
       margin-left: 20px;
       font-weight: bold;
       padding: 8px 14px;
-      background-color: orange;
+      background-color: var(--highlight);
       border-radius: 20px;
       transition: all 0.3s ease;
     }
@@ -48,13 +67,23 @@
       transform: scale(1.05);
     }
 
+    .toggle-mode {
+      background: none;
+      border: 2px solid white;
+      color: white;
+      padding: 0.4rem 0.8rem;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-left: 20px;
+    }
+
     .content {
       flex: 1;
       padding: 3rem 2rem;
       max-width: 800px;
       margin: auto;
       text-align: center;
-      background: white;
+      background: var(--card-bg);
       border-radius: 20px;
       box-shadow: 0 12px 24px rgba(0,0,0,0.1);
       transform: translateY(-20px);
@@ -63,7 +92,7 @@
 
     .content h2 {
       font-size: 2.2rem;
-      color: #ff6600;
+      color: var(--highlight);
       margin-bottom: 1rem;
     }
 
@@ -71,7 +100,6 @@
       font-size: 1.25rem;
       line-height: 1.7;
       margin-top: 1rem;
-      color: #444;
     }
 
     .raccoon-img {
@@ -81,7 +109,7 @@
     }
 
     footer {
-      background-color: #1f2937;
+      background-color: var(--footer-bg);
       color: white;
       text-align: center;
       padding: 1rem;
@@ -112,6 +140,7 @@
       <a href="index.html">Home</a>
       <a href="facts.html">Raccoon Facts</a>
       <a href="quiz.html">Raccoon Quiz</a>
+      <button class="toggle-mode" onclick="toggleDarkMode()" id="themeToggle">🌙</button>
     </nav>
   </header>
 
@@ -126,5 +155,14 @@
   <footer>
     <p>&copy; 2025 Trash Panda Paradise. Built with love, dedication, and one very hungry developer.</p>
   </footer>
+
+  <script>
+    function toggleDarkMode() {
+      const body = document.body;
+      const toggle = document.getElementById('themeToggle');
+      body.classList.toggle('dark');
+      toggle.textContent = body.classList.contains('dark') ? '☀️' : '🌙';
+    }
+  </script>
 </body>
 </html>
