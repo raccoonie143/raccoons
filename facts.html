@@ -96,21 +96,41 @@
     }
 
     .hero {
-      background: var(--card-bg);
-      padding: 2rem;
-      border-radius: 20px;
+      background: radial-gradient(circle at top left, #fff7e6, #ffe0b2);
+      padding: 3rem 2rem;
+      border-radius: 25px;
       text-align: center;
       box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      animation: pulse 5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 15px rgba(255, 153, 0, 0.2); }
+      50% { box-shadow: 0 0 25px rgba(255, 153, 0, 0.4); }
     }
 
     .hero img {
-      width: 120px;
+      width: 130px;
       animation: float 4s ease-in-out infinite;
     }
 
     @keyframes float {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-10px); }
+    }
+
+    .hero h2 {
+      font-size: 2.2rem;
+      color: #ff6600;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: #333;
+      max-width: 600px;
+      margin: auto;
+      line-height: 1.6;
     }
 
     h2 {
@@ -193,26 +213,35 @@
     <section class="hero">
       <img src="https://mystickermania.com/cdn/stickers/animals/raccoon-sitting-512x512.png" alt="Raccoon">
       <h2>Meet Nature's Clever Masked Bandits</h2>
-      <p>Did you know raccoons can remember solutions for years, solve puzzles, and even adapt to city life better than some humans?</p>
+      <p>These sneaky little geniuses aren’t just cute—they're puzzle-solving, food-snatching, garbage-day-memorizing masters of urban survival. They’ve got brains, paws, and sass!</p>
     </section>
 
-    <h2 id="facts">Top Raccoon Facts</h2>
+    <h2 id="facts">🧠 Top Raccoon Facts – Weirdly Smart & Weirdly Cute!</h2>
     <div class="card-grid">
-      <div class="card"><h3>🧠 Genius-Level Memory</h3><p>Can remember puzzle solutions for over 3 years!</p></div>
-      <div class="card"><h3>✋ Super Sensory Paws</h3><p>2/3 of their brain’s sensory power is in their paws.</p></div>
-      <div class="card"><h3>🏟️ Urban Survivors</h3><p>City raccoons are smarter than rural ones—scientifically proven!</p></div>
+      <div class="card" style="background: radial-gradient(circle, #fff8e1, #ffecb3); border: 2px dashed #ff9800;">
+        <h3>🎓 Memory of a Mastermind</h3>
+        <p>Raccoons can solve complex puzzles—and remember how for <strong>3+ years</strong>! They’re like furry little hackers with great recall.</p>
+      </div>
+      <div class="card" style="background: radial-gradient(circle, #f3e5f5, #e1bee7); border: 2px dashed #9c27b0;">
+        <h3>🖐️ Paws of Power</h3>
+        <p>Each paw has hyper-sensitive pads. Their brains are <em>obsessed</em> with touch—like having five tiny Wi-Fi antennae on each hand.</p>
+      </div>
+      <div class="card" style="background: radial-gradient(circle, #e0f7fa, #b2ebf2); border: 2px dashed #00acc1;">
+        <h3>🏙️ City Champs</h3>
+        <p>Urban raccoons have figured out garbage schedules, traffic, and doggy doors. Basically, they’re living smarter than half of us.</p>
+      </div>
     </div>
 
-    <h2 id="myths">Busting Raccoon Myths</h2>
+    <h2 id="myths">🚫 Busting Raccoon Myths – Let’s Set the Record Straight!</h2>
     <div class="card-grid">
-      <div class="card"><h3>🧼 Washing Food?</h3><p>They're not washing—just feeling texture for quality!</p></div>
-      <div class="card"><h3>🌙 Only Night Owls?</h3><p>They're crepuscular—not strictly nocturnal. Smart timing!</p></div>
-    </div>
-
-    <h2 id="gallery">Gallery of Banditry</h2>
-    <div class="card-grid">
-      <div class="card"><h3>🍕 Pizza Thief</h3><p>Trash pizza tastes best stolen at 2am.</p></div>
-      <div class="card"><h3>🦝 Bandit King</h3><p>He didn’t choose the thug life. The thug life chose him.</p></div>
+      <div class="card" style="background: radial-gradient(circle, #ffe0e0, #ffc1c1); border: 2px dashed #e53935;">
+        <h3>🧼 Washing Food?</h3>
+        <p>They’re not cleaning their snacks—they’re inspecting the texture. Call it quality control!</p>
+      </div>
+      <div class="card" style="background: radial-gradient(circle, #e8f5e9, #c8e6c9); border: 2px dashed #43a047;">
+        <h3>🌙 Only Night Owls?</h3>
+        <p>Raccoons are crepuscular—most active at dawn and dusk. Not strictly nocturnal, just strategic!</p>
+      </div>
     </div>
 
     <div class="fun-fact">
