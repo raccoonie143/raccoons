@@ -7,12 +7,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --light-bg: url('https://www.singulart.com/images/artworks/v2/cropped/60452/alts/zoom/alt_2089064_727ede877ede3e925f9503968ee62f77.jpeg');
+      --light-bg: url('https://myprivateparis.com/wp-content/uploads/2023/09/231943-825-auto.jpeg');
       --dark-bg: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1200px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg');
-      --light-text: #3a3a3a;
-      --light-accent: #8e7cc3;
-      --light-button: #f2c1b6;
-      --light-card: rgba(255,255,255,0.6);
+
+      --light-text: #3f3f3f;
+      --light-accent: #b495d1;
+      --light-button: #efd6eb;
+      --light-card: rgba(255, 255, 255, 0.65);
 
       --dark-text: #f0e9dc;
       --dark-accent: #ffcc33;
@@ -24,45 +25,42 @@
       margin: 0;
       font-family: 'Outfit', sans-serif;
       color: var(--light-text);
-      background: var(--light-bg) center/cover fixed no-repeat;
+      background: var(--light-bg) center center / cover fixed no-repeat;
       display: flex;
       flex-direction: column;
       min-height: 100vh;
-      transition: background 1s ease, color 0.6s ease, opacity 0.6s ease;
+      transition: background 1s ease, color 0.6s ease;
+      overflow-x: hidden;
     }
 
     body.dark {
-      background: var(--dark-bg) center/cover fixed no-repeat;
+      background: var(--dark-bg) center center / cover fixed no-repeat;
       color: var(--dark-text);
     }
 
-    body.fade-out {
-      opacity: 0;
-    }
-
-    body.fade-in {
-      opacity: 1;
-    }
-
     header {
-      background: rgba(255,255,255,0.7);
-      backdrop-filter: blur(6px);
-      padding: 1.2rem 2rem;
+      background: rgba(255,255,255,0.5);
+      backdrop-filter: blur(8px);
+      padding: 1rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      transition: background 0.5s ease;
+      z-index: 2;
     }
 
     body.dark header {
-      background: rgba(0,0,0,0.6);
+      background: rgba(0,0,0,0.5);
     }
 
     header h1 {
       margin: 0;
       font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
       color: var(--light-accent);
-      font-size: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      letter-spacing: 0.4px;
     }
 
     body.dark header h1 {
@@ -70,27 +68,34 @@
     }
 
     nav a, .toggle-mode {
-      margin-left: 15px;
-      padding: 8px 18px;
-      border-radius: 25px;
-      font-weight: bold;
-      background: var(--light-button);
-      color: #3a3a3a;
-      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      margin-left: 12px;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-weight: 600;
+      background: linear-gradient(145deg, #f6dbe9, #fef8ff);
+      color: #4d3c44;
+      border: 2px solid var(--light-accent);
       text-decoration: none;
-      transition: transform 0.3s, background 0.3s;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+      backdrop-filter: blur(6px);
+    }
+
+    .toggle-mode {
+      cursor: pointer;
+    }
+
+    nav a:hover, .toggle-mode:hover {
+      transform: translateY(-2px) scale(1.04);
+      box-shadow: 0 6px 18px rgba(172, 130, 180, 0.25);
     }
 
     body.dark nav a,
     body.dark .toggle-mode {
-      background: var(--dark-button);
-      color: #1a1a1a;
-      box-shadow: 0 0 8px rgba(0,0,0,0.2);
-    }
-
-    nav a:hover,
-    .toggle-mode:hover {
-      transform: scale(1.05) rotate(-1deg);
+      background: radial-gradient(circle at top left, #ffe066 0%, #ffcc33 80%);
+      color: #222;
+      border: 2px solid var(--dark-accent);
+      box-shadow: 0 4px 12px rgba(255, 204, 51, 0.3);
     }
 
     .content {
@@ -102,9 +107,9 @@
       border-radius: 20px;
       border: 2px solid var(--light-accent);
       backdrop-filter: blur(6px);
-      box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.05);
       text-align: center;
-      transition: background 0.6s, border 0.6s, color 0.6s;
+      position: relative;
     }
 
     body.dark .content {
@@ -117,6 +122,7 @@
       font-family: 'Playfair Display', serif;
       color: var(--light-accent);
       margin-bottom: 1rem;
+      cursor: pointer;
     }
 
     body.dark .content h2 {
@@ -152,21 +158,26 @@
       letter-spacing: 0.4px;
     }
 
-    footer {
-      background: rgba(255,255,255,0.7);
-      text-align: center;
-      padding: 1rem;
-      color: var(--light-text);
-      font-size: 0.95rem;
-      transition: background 0.5s ease, color 0.5s ease;
+    .easter-egg {
+      display: none;
+      opacity: 0;
+      font-size: 1rem;
+      font-style: italic;
+      margin-top: 3rem;
+      animation: fadeFloatGlow 4s ease forwards;
+      text-shadow: 0 0 10px var(--light-accent), 0 0 20px var(--light-accent);
     }
 
-    body.dark footer {
-      background: rgba(0,0,0,0.6);
-      color: var(--dark-text);
+    body.dark .easter-egg {
+      text-shadow: 0 0 10px var(--dark-accent), 0 0 20px var(--dark-accent);
     }
 
-    /* Glimmering stars / sparkles */
+    @keyframes fadeFloatGlow {
+      0% { opacity: 0; transform: translateY(10px); }
+      50% { opacity: 0.4; }
+      100% { opacity: 0.65; transform: translateY(0); }
+    }
+
     .pulse {
       position: absolute;
       width: 6px;
@@ -185,39 +196,67 @@
       0%, 100% { opacity: 0; transform: scale(0.7); }
       50% { opacity: 0.2; transform: scale(1.1); }
     }
+
+    .portal {
+      position: fixed;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: scale(0);
+      opacity: 0.9;
+      background: radial-gradient(circle at center, rgba(255,255,255,0.8) 0%, transparent 80%);
+      box-shadow: 0 0 30px 10px rgba(255,255,255,0.5),
+                  0 0 60px 30px rgba(200,150,255,0.3);
+      animation: portalExpand 0.9s ease-out forwards;
+    }
+
+    body.dark .portal {
+      background: radial-gradient(circle at center, rgba(255,249,215,0.9) 0%, transparent 80%);
+      box-shadow: 0 0 30px 10px rgba(255,235,180,0.6),
+                  0 0 60px 30px rgba(255,200,100,0.3);
+    }
+
+    @keyframes portalExpand {
+      0% { transform: scale(0.2); opacity: 1; filter: blur(1px); }
+      50% { transform: scale(6); opacity: 1; filter: blur(0px); }
+      100% { transform: scale(10); opacity: 0; filter: blur(6px); }
+    }
   </style>
 </head>
 <body>
   <header>
     <h1>🐾 Raccoon Reverie</h1>
     <nav>
-      <a href="#">Home</a>
-      <a href="#">Facts</a>
-      <a href="#">Quiz</a>
+      <a href="index.html">Home</a>
+      <a href="facts.html">Facts</a>
+      <a href="quiz.html">Quiz</a>
       <button class="toggle-mode" id="themeToggle">🌙</button>
     </nav>
   </header>
 
   <div class="content">
-    <h2>About Us</h2>
+    <h2 id="aboutTitle">About Us</h2>
     <div id="aboutText"></div>
     <img class="raccoon-img" src="https://mystickermania.com/cdn/stickers/animals/raccoon-sitting-512x512.png" alt="Cute Raccoon">
     <p class="hint">Psst… Try switching the theme for a dreamy surprise 🌗</p>
-  </div>
 
-  <footer>
-    <p>&copy; 2025 Raccoon Reverie · Crafted with dawn dreams & moonlight mischief 🦝✨</p>
-  </footer>
+    <p class="easter-egg" id="easterEgg">I made this after getting inspired by you, Quackers... and I love you. This little world is for you.</p>
+  </div>
 
   <script>
     const body = document.body;
     const toggleBtn = document.getElementById('themeToggle');
     const aboutText = document.getElementById('aboutText');
+    const aboutTitle = document.getElementById('aboutTitle');
+    const easterEgg = document.getElementById('easterEgg');
+    let clickCount = 0;
 
     const lightText = `
-      <p><strong>Doofy</strong> made this peaceful dawn-inspired place for wandering minds and cozy raccoons.</p>
-      <p>Where early light paints the skies with lavender, raccoons gently greet the day 🌅</p>
-      <p>Feel the calm… and when ready, flip the stars on.</p>
+      <p><strong>Doofy</strong> made this dreamy lily-filled place for peaceful raccoons and lovers of Monet's skies.</p>
+      <p>Where the pond shimmers and petals drift, raccoons reflect on beauty 🪷</p>
+      <p>Stay a while... or float into the stars.</p>
     `;
 
     const darkText = `
@@ -225,16 +264,6 @@
       <p>Let your mind wander among constellations with your favorite trash panda friends 🌌🦝</p>
       <p>When you’re ready for daylight, it waits just a click away.</p>
     `;
-
-    function fadeSwitch(cb) {
-      body.classList.add('fade-out');
-      setTimeout(() => {
-        cb();
-        body.classList.remove('fade-out');
-        body.classList.add('fade-in');
-        setTimeout(() => body.classList.remove('fade-in'), 300);
-      }, 300);
-    }
 
     function spawnGlows() {
       document.querySelectorAll('.pulse').forEach(e => e.remove());
@@ -248,14 +277,22 @@
       }
     }
 
-    function toggleDarkMode() {
-      fadeSwitch(() => {
+    function toggleDarkMode(e) {
+      const portal = document.createElement('div');
+      portal.className = 'portal';
+      portal.style.left = `${e.clientX - 100}px`;
+      portal.style.top = `${e.clientY - 100}px`;
+      document.body.appendChild(portal);
+
+      setTimeout(() => {
         const isDark = body.classList.toggle('dark');
         toggleBtn.textContent = isDark ? '☀️' : '🌙';
         aboutText.innerHTML = isDark ? darkText : lightText;
         localStorage.setItem('theme', isDark ? 'dark' : 'light');
         spawnGlows();
-      });
+      }, 250);
+
+      setTimeout(() => portal.remove(), 1000);
     }
 
     function applyStoredTheme() {
@@ -266,8 +303,21 @@
       spawnGlows();
     }
 
-    toggleBtn.addEventListener('click', toggleDarkMode);
+    toggleBtn.addEventListener('click', (e) => toggleDarkMode(e));
     window.addEventListener('load', applyStoredTheme);
+
+    document.addEventListener('mousemove', e => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 10;
+      const y = (e.clientY / window.innerHeight - 0.5) * 10;
+      body.style.backgroundPosition = `calc(50% + ${x}px) calc(50% + ${y}px)`;
+    });
+
+    aboutTitle.addEventListener('click', () => {
+      clickCount++;
+      if (clickCount === 3) {
+        easterEgg.style.display = 'block';
+      }
+    });
   </script>
 </body>
 </html>
