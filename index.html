@@ -3,397 +3,326 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Trash Panda Paradise</title>
+  <title>Raccoon Reverie</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-color: #f4f6f8;
-      --text-color: #1f2937;
-      --header-bg: #1f2937;
-      --card-bg: white;
-      --joke-bg: orange;
-      --btn-bg: orange;
-      --btn-outline-color: #333;
-      --item-bg: white;
-      --item-hover-bg: #e2e8f0;
-      --collected-bg: transparent;
+      --accent: #f5b5a5;
+      --highlight: #fff1e6;
+      --bg-light: #faf8f6;
+      --text-light: #333;
+      --bg-dark: #2e2d3c;
+      --text-dark: #f5f5f5;
+      --joke-bg-light: #fff7f0;
+      --joke-bg-dark: #3c3b50;
+      --joke-text-light: #5c3d2e;
+      --joke-text-dark: #fbd2a2;
     }
 
-    body.dark {
-      --bg-color: #1f1f1f;
-      --text-color: #e0e0e0;
-      --header-bg: #111;
-      --card-bg: #2a2a2a;
-      --joke-bg: #444;
-      --btn-bg: #ff9800;
-      --btn-outline-color: #ccc;
-      --item-bg: #2e2e2e;
-      --item-hover-bg: #3a3a3a;
-      --collected-bg: #222;
+    * {
+      box-sizing: border-box;
     }
 
     body {
-      font-family: 'Segoe UI', sans-serif;
       margin: 0;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      transition: background-color 0.3s, color 0.3s;
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg-light);
+      color: var(--text-light);
+      font-size: 16px;
+      transition: background 0.5s ease, color 0.5s ease;
+      overflow-x: hidden;
+    }
+
+    body.dark {
+      background: var(--bg-dark);
+      color: var(--text-dark);
     }
 
     header {
-      background-color: var(--header-bg);
       padding: 1rem 2rem;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      color: white;
+      align-items: center;
+      background: var(--highlight);
+      border-bottom: 2px solid var(--accent);
     }
 
     header h1 {
-      font-size: 1.5rem;
-      transition: transform 0.3s;
+      margin: 0;
+      font-size: 1.6rem;
+      color: var(--accent);
+      text-shadow: 0 0 8px var(--accent);
     }
 
-    header h1:hover {
-      transform: scale(1.05);
-    }
-
-    nav a {
-      margin: 0 1rem;
-      color: white;
+    nav a, .dark-toggle {
+      margin: 0 0.6rem;
       text-decoration: none;
-      font-weight: 500;
-      position: relative;
-      transition: color 0.3s;
+      font-weight: 600;
+      color: var(--accent);
+      transition: opacity 0.3s, transform 0.2s;
     }
 
-    nav a::after {
-      content: '';
-      display: block;
-      width: 0;
-      height: 2px;
-      background: orange;
-      transition: width 0.3s;
-      position: absolute;
-      bottom: -4px;
-      left: 0;
+    nav a:hover, .dark-toggle:hover {
+      opacity: 0.75;
+      transform: scale(1.1);
     }
 
-    nav a:hover::after {
-      width: 100%;
-    }
-
-    nav a:hover {
-      color: orange;
-    }
-
-    .dark-toggle {
-      background: none;
-      border: 2px solid white;
-      color: white;
-      border-radius: 6px;
-      padding: 0.3rem 0.8rem;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .dark-toggle:hover {
-      background: rgba(255,255,255,0.2);
-    }
-
-    .container {
-      padding: 2rem;
+    .container, main {
+      padding: 3rem 1.5rem;
+      max-width: 1100px;
+      margin: auto;
     }
 
     .hero {
-      background-color: var(--card-bg);
-      border-radius: 10px;
+      background: linear-gradient(135deg, var(--highlight), #fff);
       padding: 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-      transition: transform 0.3s;
-    }
-
-    .hero:hover {
-      transform: scale(1.01);
-    }
-
-    .hero-text {
-      max-width: 60%;
+      border-radius: 1.5rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      text-align: center;
+      animation: fadeIn 0.6s ease-in;
     }
 
     .hero h2 {
+      margin-top: 0;
       font-size: 2rem;
-      margin-bottom: 1rem;
+      color: var(--accent);
     }
 
-    .buttons button {
-      margin-right: 1rem;
-      padding: 0.7rem 1.2rem;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
+    .hero p {
+      margin: 1rem 0 1.5rem;
+    }
+
+    .hero img {
+      width: 120px;
+      animation: float 3s ease-in-out infinite, glow 2s ease-in-out infinite;
+      display: block;
+      margin: 1rem auto 0;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes glow {
+      0%, 100% { filter: drop-shadow(0 0 5px var(--accent)); }
+      50% { filter: drop-shadow(0 0 15px var(--accent)); }
+    }
+
+    .btn, .btn-outline {
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 0.6rem 1.2rem;
+      border-radius: 10px;
+      margin: 0.5rem;
       cursor: pointer;
-      transition: background 0.3s, transform 0.2s;
+      transition: all 0.3s ease;
     }
 
-    .buttons button:hover {
+    .btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+    }
+
+    .btn:hover {
       transform: scale(1.05);
     }
 
-    .btn-yellow {
-      background-color: var(--btn-bg);
-      color: white;
-    }
-
     .btn-outline {
-      border: 2px solid #ccc;
       background: transparent;
-      color: var(--btn-outline-color);
-    }
-
-    .features {
-      margin-top: 3rem;
-    }
-
-    .features h3 {
-      font-size: 1.5rem;
-      text-align: center;
-      margin-bottom: 2rem;
+      color: var(--accent);
+      border: 2px solid var(--accent);
     }
 
     .cards {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
     }
 
     .card {
-      background: var(--card-bg);
-      border-radius: 10px;
+      background: rgba(255,255,255,0.9);
+      border-radius: 1rem;
       padding: 1.5rem;
-      width: 250px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      transition: transform 0.3s, box-shadow 0.3s;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      transition: transform 0.3s ease, background 0.3s ease;
     }
 
     .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      transform: translateY(-6px);
+      background-color: #fffbe7;
     }
 
-    .card h4 {
-      margin-top: 0.5rem;
+    body.dark .card {
+      background: rgba(255, 255, 255, 0.08);
     }
 
     .joke-section {
-      background: var(--joke-bg);
+      background-color: var(--joke-bg-light);
+      color: var(--joke-text-light);
       padding: 2rem;
-      color: white;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-radius: 10px;
-      margin-top: 3rem;
-      transition: transform 0.3s;
+      border-radius: 1.2rem;
+      max-width: 700px;
+      margin: 2rem auto;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: background-color 0.4s, color 0.4s;
     }
 
-    .joke-section:hover {
-      transform: scale(1.01);
+    body.dark .joke-section {
+      background-color: var(--joke-bg-dark);
+      color: var(--joke-text-dark);
     }
 
     .joke-section button {
-      background: white;
-      color: orange;
+      margin-top: 1rem;
+      padding: 0.6rem 1.2rem;
+      border-radius: 10px;
       border: none;
-      padding: 0.7rem 1.2rem;
-      border-radius: 6px;
-      cursor: pointer;
+      background: var(--accent);
+      color: white;
       font-weight: bold;
-      transition: transform 0.2s;
+      cursor: pointer;
+      transition: transform 0.2s ease;
     }
 
     .joke-section button:hover {
       transform: scale(1.05);
     }
 
-    .collection {
-      margin-top: 3rem;
-      text-align: center;
+    .sparkle {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: radial-gradient(circle, white 40%, transparent 70%);
+      animation: sparkle 0.6s ease forwards;
+      pointer-events: none;
     }
 
-    .trash-items {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 1rem;
+    @keyframes sparkle {
+      0% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(2); }
     }
 
-    .item {
-      background: var(--item-bg);
-      padding: 1rem 2rem;
-      border-radius: 10px;
-      cursor: pointer;
-      border: 2px solid #ccc;
-      transition: transform 0.2s, background 0.2s;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .item:hover {
-      background: var(--item-hover-bg);
-      transform: scale(1.05);
-      animation: trashBounce 0.6s ease;
+    .theme-circle {
+      position: fixed;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: var(--accent);
+      z-index: 999;
+      pointer-events: none;
+      transition: width 0.6s ease, height 0.6s ease;
+      transform: translate(-50%, -50%);
     }
 
-    .collected {
-      margin-top: 1.5rem;
-      padding: 1rem;
-      border: 2px dashed #ccc;
-      min-height: 80px;
-      background-color: var(--collected-bg);
-      transition: background-color 0.3s ease;
-    }
-
-    .hero img {
-      animation: raccoonWiggle 3s infinite ease-in-out;
-      transform-origin: center center;
-    }
-
-    @keyframes raccoonWiggle {
-      0%, 100% { transform: rotate(0deg); }
-      25% { transform: rotate(5deg); }
-      50% { transform: rotate(-5deg); }
-      75% { transform: rotate(5deg); }
-    }
-
-    @keyframes trashBounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-
-    @keyframes shake {
-      0% { transform: translateX(0); }
-      25% { transform: translateX(-5px); }
-      50% { transform: translateX(5px); }
-      75% { transform: translateX(-5px); }
-      100% { transform: translateX(0); }
-    }
-
-    .shake {
-      animation: shake 0.5s ease;
+    body.animating .theme-circle {
+      width: 200vmax;
+      height: 200vmax;
     }
   </style>
 </head>
 <body>
+  <div class="theme-circle" id="themeCircle"></div>
+
   <header>
-    <h1>🦡 Trash Panda Paradise</h1>
+    <h1>🦝 Raccoon Reverie</h1>
     <nav>
       <a href="#">Home</a>
-      <a href="facts.html">Raccoon Facts</a>
-      <a href="quiz.html">Raccoon Quiz</a>
-      <a href="about.html">About Us</a>
-      <button class="dark-toggle" id="themeToggle" onclick="toggleDarkMode()">🌙</button>
+      <a href="facts.html">Facts</a>
+      <a href="quiz.html">Quiz</a>
+      <a href="about.html">About</a>
+      <button class="dark-toggle" onclick="toggleTheme(event)" id="themeToggle">🌙</button>
     </nav>
   </header>
 
-  <div class="container">
-    <div class="hero">
-      <div class="hero-text">
-        <h2>Welcome to Trash Panda Paradise!</h2>
-        <p>Your one-stop destination for all things raccoon. Dive into the fascinating world of these masked bandits and discover why they’re nature’s most adorable dumpster divers!</p>
-        <div class="buttons">
-          <a href="facts.html"><button class="btn-yellow">Explore Facts</button></a>
-          <a href="quiz.html"><button class="btn-outline">Take the Quiz</button></a>
-        </div>
-      </div>
-      <img src="https://mystickermania.com/cdn/stickers/animals/raccoon-sitting-512x512.png" alt="Cute Raccoon" width="150">
+  <main>
+    <section class="hero">
+      <h2>Welcome to Raccoon Reverie</h2>
+      <p>Discover the dreamy world of raccoons. Whether you're a trash panda fan or just passing through, there's something magical here for you.</p>
+      <a href="facts.html"><button class="btn">Explore Facts</button></a>
+      <a href="quiz.html"><button class="btn btn-outline">Take Quiz</button></a>
+      <img src="https://mystickermania.com/cdn/stickers/animals/raccoon-sitting-512x512.png" alt="Raccoon Sticker" />
+    </section>
+
+    <h2 style="text-align:center; margin-top: 3rem;">Why Raccoons Rule</h2>
+    <div class="cards">
+      <div class="card">💡 <strong>Brainiacs</strong><br>They remember solutions for years. Not just furry — genius furry!</div>
+      <div class="card">👋 <strong>Super Paws</strong><br>Hands so sensitive they can feel bugs inside a glove. Ew but wow.</div>
+      <div class="card">🦹‍♂️ <strong>Mask Masters</strong><br>Born with a disguise and no plan to hide it.</div>
+      <div class="card">🗑️ <strong>Trash Artists</strong><br>They treat trash like treasure. True recyclers.</div>
+      <div class="card">🌃 <strong>City Slickers</strong><br>They’ve mastered the concrete jungle and your backyard.</div>
+      <div class="card">🦝 <strong>Cuteness Overload</strong><br>Beady eyes, twitchy noses, and illegal levels of adorable.</div>
     </div>
 
-    <section class="features">
-      <h3>Why Raccoons Are Awesome</h3>
-      <div class="cards">
-        <div class="card">
-          <h4>💡 Clever Problem Solvers</h4>
-          <p>Raccoons can remember solutions to tasks for up to three years. Basically, the Einstein of the animal kingdom—if Einstein loved trash.</p>
-        </div>
-        <div class="card">
-          <h4>🕐️ Sensitive Hands</h4>
-          <p>Their front paws have nearly four times more sensory receptors. Nature’s pickpockets!</p>
-        </div>
-        <div class="card">
-          <h4>😎 Masters of Disguise</h4>
-          <p>With their "bandit masks," raccoons are criminally adorable. They’re not hiding—they’re fabulous.</p>
-        </div>
-      </div>
-    </section>
-
     <section class="joke-section" id="jokeSection">
-      <div>
-        <h3>Raccoon Joke of the Day</h3>
-        <p id="joke"><em>"Why don't raccoons use recipes when cooking? Because they prefer to trash it up as they go!"</em></p>
-      </div>
-      <button onclick="getAnotherJoke()">Get Another Joke</button>
+      <h3>Raccoon Joke of the Day</h3>
+      <p id="joke"><em>"Why don't raccoons ever get caught? Because they always mask their tracks!"</em></p>
+      <button onclick="getAnotherJoke(event)">Get Another Joke</button>
     </section>
-
-    <section class="collection">
-      <h3>Interactive Trash Collection</h3>
-      <p>Help our raccoon friend collect treasures! Click items to add them below.</p>
-      <div class="trash-items">
-        <div class="item" onclick="addToCollection('🍕 Pizza Crust')">🍕 Pizza Crust</div>
-        <div class="item" onclick="addToCollection('🍎 Apple Core')">🍎 Apple Core</div>
-        <div class="item" onclick="addToCollection('🥫 Shiny Can')">🥫 Shiny Can</div>
-        <div class="item" onclick="addToCollection('🍩 Half Donut')">🍩 Half Donut</div>
-      </div>
-      <div class="collected" id="collected">
-        <strong>Raccoon's Collection:</strong><br>
-      </div>
-    </section>
-  </div>
+  </main>
 
   <script>
     const jokes = [
-      "Why don't raccoons use recipes when cooking? Because they prefer to trash it up as they go!",
-      "Why did the raccoon cross the road? Because the trash was greener on the other side!",
-      "What do you call a raccoon that can play the piano? A trash virtuoso!",
-      "Why did the raccoon bring a ladder to the bar? Because it heard the drinks were on the house!",
-      "What do raccoons do when they get bored? They go dumpster diving for fun!"
+      "Why don't raccoons ever get caught? Because they always mask their tracks!",
+      "Why did the raccoon cross the street? To get to the trash on the other side!",
+      "What do raccoons do when they’re bored? They go dumpster diving for fun!",
+      "How do raccoons party? They throw trash bashes!",
+      "Why was the raccoon a great musician? Because he had the perfect pitch for trash tunes!"
     ];
 
     let lastJokeIndex = -1;
 
-    function getAnotherJoke() {
+    function getAnotherJoke(event) {
       let randomIndex;
       do {
         randomIndex = Math.floor(Math.random() * jokes.length);
       } while (randomIndex === lastJokeIndex);
       lastJokeIndex = randomIndex;
-      const jokeSection = document.getElementById('jokeSection');
-      jokeSection.classList.add('shake');
-      setTimeout(() => jokeSection.classList.remove('shake'), 500);
-      document.getElementById('joke').innerHTML = `<em>"${jokes[randomIndex]}"</em>`;
+
+      const jokeText = document.getElementById('joke');
+      const sparkle = document.createElement('div');
+      sparkle.classList.add('sparkle');
+      sparkle.style.left = `${Math.random() * 90 + 5}%`;
+      sparkle.style.top = `${Math.random() * 80 + 10}%`;
+
+      const section = document.getElementById('jokeSection');
+      section.appendChild(sparkle);
+
+      setTimeout(() => sparkle.remove(), 600);
+      jokeText.innerHTML = `<em>"${jokes[randomIndex]}"</em>`;
     }
 
-    function addToCollection(item) {
-      const container = document.getElementById('collected');
-      container.innerHTML += `${item} `;
-      localStorage.setItem('raccoonCollection', container.innerHTML);
-    }
-
-    function loadCollection() {
-      const saved = localStorage.getItem('raccoonCollection');
-      if (saved) {
-        document.getElementById('collected').innerHTML = saved;
-      }
-    }
-
-    function toggleDarkMode() {
+    function toggleTheme(e) {
       const body = document.body;
       const toggleBtn = document.getElementById('themeToggle');
-      body.classList.toggle('dark');
-      const isDark = body.classList.contains('dark');
-      toggleBtn.textContent = isDark ? '☀️' : '🌙';
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      const circle = document.getElementById('themeCircle');
+      const x = e.clientX || window.innerWidth / 2;
+      const y = e.clientY || window.innerHeight / 2;
+
+      circle.style.left = `${x}px`;
+      circle.style.top = `${y}px`;
+
+      body.classList.add('animating');
+
+      setTimeout(() => {
+        body.classList.toggle('dark');
+        toggleBtn.textContent = body.classList.contains('dark') ? '☀️' : '🌙';
+        localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
+      }, 50);
+
+      setTimeout(() => {
+        body.classList.remove('animating');
+      }, 800);
     }
 
     function applyStoredTheme() {
@@ -404,10 +333,7 @@
       }
     }
 
-    window.onload = () => {
-      applyStoredTheme();
-      loadCollection();
-    };
+    window.onload = applyStoredTheme;
   </script>
 </body>
 </html>
