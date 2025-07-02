@@ -3,178 +3,271 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About Us - Trash Panda Paradise</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+  <title>About Us – Raccoon Reverie</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-gradient: linear-gradient(135deg, #fff5e6, #ffe4cc);
-      --text-color: #333;
-      --card-bg: white;
-      --highlight: orange;
-      --header-bg: #1f2937;
-      --footer-bg: #1f2937;
-    }
+      --light-bg: url('https://www.singulart.com/images/artworks/v2/cropped/60452/alts/zoom/alt_2089064_727ede877ede3e925f9503968ee62f77.jpeg');
+      --dark-bg: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1200px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg');
+      --light-text: #3a3a3a;
+      --light-accent: #8e7cc3;
+      --light-button: #f2c1b6;
+      --light-card: rgba(255,255,255,0.6);
 
-    body.dark {
-      --bg-gradient: linear-gradient(135deg, #1a1a1a, #2c2c2c);
-      --text-color: #ddd;
-      --card-bg: #333;
-      --highlight: #ff9800;
-      --header-bg: #111;
-      --footer-bg: #111;
+      --dark-text: #f0e9dc;
+      --dark-accent: #ffcc33;
+      --dark-button: #ffe066;
+      --dark-card: rgba(13,27,42,0.75);
     }
 
     body {
       margin: 0;
       font-family: 'Outfit', sans-serif;
-      background: var(--bg-gradient);
-      color: var(--text-color);
+      color: var(--light-text);
+      background: var(--light-bg) center/cover fixed no-repeat;
       display: flex;
       flex-direction: column;
       min-height: 100vh;
-      animation: fadeIn 1s ease-in;
-      transition: background 0.3s, color 0.3s;
+      transition: background 1s ease, color 0.6s ease, opacity 0.6s ease;
+    }
+
+    body.dark {
+      background: var(--dark-bg) center/cover fixed no-repeat;
+      color: var(--dark-text);
+    }
+
+    body.fade-out {
+      opacity: 0;
+    }
+
+    body.fade-in {
+      opacity: 1;
     }
 
     header {
-      background-color: var(--header-bg);
-      color: white;
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(6px);
       padding: 1.2rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: background 0.5s ease;
+    }
+
+    body.dark header {
+      background: rgba(0,0,0,0.6);
     }
 
     header h1 {
       margin: 0;
-      font-size: 1.8rem;
+      font-family: 'Playfair Display', serif;
+      color: var(--light-accent);
+      font-size: 2rem;
     }
 
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin-left: 20px;
+    body.dark header h1 {
+      color: var(--dark-accent);
+    }
+
+    nav a, .toggle-mode {
+      margin-left: 15px;
+      padding: 8px 18px;
+      border-radius: 25px;
       font-weight: bold;
-      padding: 8px 14px;
-      background-color: var(--highlight);
-      border-radius: 20px;
-      transition: all 0.3s ease;
+      background: var(--light-button);
+      color: #3a3a3a;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      text-decoration: none;
+      transition: transform 0.3s, background 0.3s;
     }
 
-    nav a:hover {
-      background-color: #ff9900;
-      transform: scale(1.05);
+    body.dark nav a,
+    body.dark .toggle-mode {
+      background: var(--dark-button);
+      color: #1a1a1a;
+      box-shadow: 0 0 8px rgba(0,0,0,0.2);
     }
 
-    .toggle-mode {
-      background: none;
-      border: 2px solid white;
-      color: white;
-      padding: 0.4rem 0.8rem;
-      border-radius: 10px;
-      cursor: pointer;
-      margin-left: 20px;
+    nav a:hover,
+    .toggle-mode:hover {
+      transform: scale(1.05) rotate(-1deg);
     }
 
     .content {
       flex: 1;
-      padding: 3rem 2rem;
       max-width: 800px;
-      margin: auto;
-      text-align: center;
-      background: var(--card-bg);
+      margin: 3rem auto;
+      padding: 2.5rem 2rem;
+      background: var(--light-card);
       border-radius: 20px;
-      box-shadow: 0 12px 24px rgba(0,0,0,0.1);
-      transform: translateY(-20px);
-      animation: slideUp 0.6s ease-out forwards;
+      border: 2px solid var(--light-accent);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+      text-align: center;
+      transition: background 0.6s, border 0.6s, color 0.6s;
+    }
+
+    body.dark .content {
+      background: var(--dark-card);
+      border: 2px solid var(--dark-accent);
     }
 
     .content h2 {
-      font-size: 2.2rem;
-      color: var(--highlight);
+      font-size: 2.4rem;
+      font-family: 'Playfair Display', serif;
+      color: var(--light-accent);
       margin-bottom: 1rem;
     }
 
+    body.dark .content h2 {
+      color: var(--dark-accent);
+    }
+
     .content p {
-      font-size: 1.25rem;
-      line-height: 1.7;
-      margin-top: 1rem;
+      font-size: 1.2rem;
+      line-height: 1.6;
+      color: inherit;
     }
 
     .raccoon-img {
-      width: 150px;
+      width: 130px;
       margin-top: 2rem;
-      animation: float 3s ease-in-out infinite;
+      filter: drop-shadow(0 0 5px var(--light-accent));
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+
+    .raccoon-img:hover {
+      transform: translateY(-4px);
+    }
+
+    body.dark .raccoon-img {
+      filter: drop-shadow(0 0 6px var(--dark-accent));
+    }
+
+    .hint {
+      font-size: 0.9rem;
+      margin-top: 1.5rem;
+      opacity: 0.35;
+      font-style: italic;
+      letter-spacing: 0.4px;
     }
 
     footer {
-      background-color: var(--footer-bg);
-      color: white;
+      background: rgba(255,255,255,0.7);
       text-align: center;
       padding: 1rem;
+      color: var(--light-text);
       font-size: 0.95rem;
+      transition: background 0.5s ease, color 0.5s ease;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    body.dark footer {
+      background: rgba(0,0,0,0.6);
+      color: var(--dark-text);
     }
 
-    @keyframes slideUp {
-      from { transform: translateY(40px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+    /* Glimmering stars / sparkles */
+    .pulse {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: var(--light-accent);
+      border-radius: 50%;
+      opacity: 0;
+      animation: pulse 5s ease-in-out infinite;
     }
 
-    @keyframes float {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-      100% { transform: translateY(0); }
+    body.dark .pulse {
+      background: var(--dark-accent);
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0; transform: scale(0.7); }
+      50% { opacity: 0.2; transform: scale(1.1); }
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>🦝 Trash Panda Paradise</h1>
+    <h1>🐾 Raccoon Reverie</h1>
     <nav>
-      <a href="index.html">Home</a>
-      <a href="facts.html">Raccoon Facts</a>
-      <a href="quiz.html">Raccoon Quiz</a>
-      <button class="toggle-mode" onclick="toggleDarkMode()" id="themeToggle">🌙</button>
+      <a href="#">Home</a>
+      <a href="#">Facts</a>
+      <a href="#">Quiz</a>
+      <button class="toggle-mode" id="themeToggle">🌙</button>
     </nav>
   </header>
 
   <div class="content">
     <h2>About Us</h2>
-    <p>This cute little website was made by <strong>Doofy</strong> — with too much caffeine and a whole lot of love! 💻❤️</p>
-    <p>It took a *really* long time to make... So long, in fact, that Doofy skipped dinner one night because he was completely hooked into it.</p>
-    <p>Hope you enjoy every quirky raccoon animation and trashy pun 🦝✨</p>
+    <div id="aboutText"></div>
     <img class="raccoon-img" src="https://mystickermania.com/cdn/stickers/animals/raccoon-sitting-512x512.png" alt="Cute Raccoon">
+    <p class="hint">Psst… Try switching the theme for a dreamy surprise 🌗</p>
   </div>
 
   <footer>
-    <p>&copy; 2025 Trash Panda Paradise. Built with love, dedication, and one very hungry developer.</p>
+    <p>&copy; 2025 Raccoon Reverie · Crafted with dawn dreams & moonlight mischief 🦝✨</p>
   </footer>
 
   <script>
-    function toggleDarkMode() {
-      const body = document.body;
-      const toggle = document.getElementById('themeToggle');
-      body.classList.toggle('dark');
-      const isDark = body.classList.contains('dark');
-      toggle.textContent = isDark ? '☀️' : '🌙';
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    const body = document.body;
+    const toggleBtn = document.getElementById('themeToggle');
+    const aboutText = document.getElementById('aboutText');
+
+    const lightText = `
+      <p><strong>Doofy</strong> made this peaceful dawn-inspired place for wandering minds and cozy raccoons.</p>
+      <p>Where early light paints the skies with lavender, raccoons gently greet the day 🌅</p>
+      <p>Feel the calm… and when ready, flip the stars on.</p>
+    `;
+
+    const darkText = `
+      <p><strong>Doofy</strong> created this under a swirling night sky, guided by cosmic calm and raccoon whimsy.</p>
+      <p>Let your mind wander among constellations with your favorite trash panda friends 🌌🦝</p>
+      <p>When you’re ready for daylight, it waits just a click away.</p>
+    `;
+
+    function fadeSwitch(cb) {
+      body.classList.add('fade-out');
+      setTimeout(() => {
+        cb();
+        body.classList.remove('fade-out');
+        body.classList.add('fade-in');
+        setTimeout(() => body.classList.remove('fade-in'), 300);
+      }, 300);
     }
 
-    function applyStoredTheme() {
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'dark') {
-        document.body.classList.add('dark');
-        document.getElementById('themeToggle').textContent = '☀️';
+    function spawnGlows() {
+      document.querySelectorAll('.pulse').forEach(e => e.remove());
+      for (let i = 0; i < 15; i++) {
+        const el = document.createElement('div');
+        el.className = 'pulse';
+        el.style.left = `${Math.random() * 100}vw`;
+        el.style.top = `${Math.random() * 100}vh`;
+        el.style.animationDelay = `${Math.random() * 5}s`;
+        body.appendChild(el);
       }
     }
 
-    window.onload = applyStoredTheme;
+    function toggleDarkMode() {
+      fadeSwitch(() => {
+        const isDark = body.classList.toggle('dark');
+        toggleBtn.textContent = isDark ? '☀️' : '🌙';
+        aboutText.innerHTML = isDark ? darkText : lightText;
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        spawnGlows();
+      });
+    }
+
+    function applyStoredTheme() {
+      const isDark = localStorage.getItem('theme') === 'dark';
+      if (isDark) body.classList.add('dark');
+      toggleBtn.textContent = isDark ? '☀️' : '🌙';
+      aboutText.innerHTML = isDark ? darkText : lightText;
+      spawnGlows();
+    }
+
+    toggleBtn.addEventListener('click', toggleDarkMode);
+    window.addEventListener('load', applyStoredTheme);
   </script>
 </body>
 </html>
