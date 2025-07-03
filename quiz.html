@@ -2,126 +2,155 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Raccoon Personality Quiz</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg-light: linear-gradient(to bottom, #fffde7, #fff9c4, #ffe082);
-      --bg-dark: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
-      --text-light: #2f2f2f;
-      --text-dark: #f0eada;
-      --accent-light: #ffd54f;
-      --accent-dark: #ffcc80;
-      --card-light: #ffffffdd;
-      --card-dark: #1e1e2fdd;
       --gold: #ffd700;
+      --glow-light: #fff9c4;
+      --glow-dark: #a1c4fd;
     }
 
     body {
       margin: 0;
       font-family: 'Outfit', sans-serif;
-      color: var(--text-light);
-      background: var(--bg-light);
       transition: background 1s ease, color 0.5s ease;
       overflow-x: hidden;
       position: relative;
+      color: #2c2c2c;
+      background: url('https://thumbs.dreamstime.com/b/illustration-beautiful-sky-background-clouds-illustration-generated-use-ai-beautiful-sky-background-356243882.jpg') no-repeat center/cover;
     }
 
     body.dark {
-      background: var(--bg-dark);
-      color: var(--text-dark);
+      background: url('https://i.redd.it/l7m2l5pqiwie1.png') no-repeat center/cover;
+      color: #e8e6ff;
+    }
+
+    .curtain {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, #fceabb, #f8b500);
+      z-index: 999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.8s ease;
+    }
+
+    body.dark .curtain {
+      background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+    }
+
+    .curtain.active {
+      opacity: 1;
+      pointer-events: auto;
     }
 
     header {
-      background: rgba(0, 0, 0, 0.6);
-      color: white;
+      background: rgba(255,255,255,0.3);
+      backdrop-filter: blur(10px);
       padding: 1rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      backdrop-filter: blur(10px);
-      position: relative;
       z-index: 2;
+      position: relative;
+    }
+
+    body.dark header {
+      background: rgba(0, 0, 0, 0.6);
     }
 
     header h1 {
-      font-size: 1.8rem;
+      font-size: 2rem;
       margin: 0;
-      background: linear-gradient(90deg, var(--accent-light), var(--gold));
+      background: linear-gradient(90deg, #ffa726, #ffd54f);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      animation: shimmer 3s infinite linear;
+      animation: glow 2s ease-in-out infinite;
     }
 
-    @keyframes shimmer {
-      0% { background-position: 0% }
-      100% { background-position: 100% }
+    body.dark header h1 {
+      background: linear-gradient(90deg, #91eae4, #7f7fd5, #e1bee7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 8px #7f7fd5;
+    }
+
+    @keyframes glow {
+      0%, 100% { text-shadow: 0 0 5px var(--glow-light); }
+      50% { text-shadow: 0 0 15px var(--gold); }
     }
 
     .toggle-btn {
       background: transparent;
-      border: 2px solid white;
+      border: 2px solid currentColor;
+      padding: 0.5rem 1rem;
       border-radius: 30px;
-      padding: 0.4rem 1rem;
-      color: white;
+      font-weight: bold;
       cursor: pointer;
-      transition: 0.5s;
-    }
-
-    .toggle-btn:hover {
-      background: rgba(255, 255, 255, 0.2);
+      transition: 0.3s;
+      color: inherit;
     }
 
     .container {
       max-width: 750px;
       margin: 2rem auto;
-      background: var(--card-light);
+      background: rgba(255,255,255,0.75);
       border-radius: 20px;
       padding: 2rem;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-      backdrop-filter: blur(8px);
-      animation: fadeSlide 1s ease;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
       position: relative;
-      z-index: 1;
     }
 
     body.dark .container {
-      background: var(--card-dark);
+      background: rgba(10,10,30,0.7);
+      box-shadow: 0 10px 30px rgba(255,255,255,0.15);
+      color: #e8e6ff;
     }
 
-    @keyframes fadeSlide {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .question p {
-      font-size: 1.3rem;
-      font-weight: bold;
-      margin-bottom: 1rem;
+    .question p,
+    .result p,
+    .option {
+      color: inherit;
     }
 
     .option {
       display: block;
-      background: rgba(255, 255, 255, 0.7);
       padding: 0.8rem 1.2rem;
       margin: 0.6rem 0;
-      border-radius: 14px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.6);
       cursor: pointer;
       transition: 0.3s;
-      border: 2px solid transparent;
+    }
+
+    body.dark .option {
+      background: rgba(80, 80, 110, 0.5);
+      border: 1px solid rgba(150,150,255,0.2);
+    }
+
+    .option:hover {
+      background: var(--gold);
+      transform: scale(1.03);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    body.dark .option:hover {
+      background: #7f7fd5;
+      color: #fff;
+      box-shadow: 0 0 12px rgba(140, 160, 255, 0.5);
     }
 
     input[type="radio"] { display: none; }
     input:checked + .option {
-      background: var(--accent-light);
-      border-color: var(--gold);
-      box-shadow: 0 0 10px var(--accent-light);
-      transform: scale(1.02);
-    }
-
-    body.dark input:checked + .option {
-      background: var(--accent-dark);
+      border: 2px solid var(--gold);
+      background: var(--gold);
+      font-weight: bold;
     }
 
     .next-btn, .restart-btn, .share-btn {
@@ -133,39 +162,21 @@
       border: none;
       cursor: pointer;
       font-weight: bold;
-      background: var(--gold);
+      background: linear-gradient(to right, #ffcc70, #ffeb3b);
       color: #333;
-      transition: transform 0.3s ease;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .next-btn:hover, .restart-btn:hover, .share-btn:hover {
-      transform: scale(1.06);
-    }
-
-    .warning {
-      margin-top: 1rem;
-      background: #fff3cd;
-      border: 2px dashed var(--gold);
-      border-radius: 12px;
-      padding: 1rem;
-      animation: shake 0.3s ease;
-      text-align: center;
-    }
-
-    .warning.hidden, .hidden { display: none; }
-
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-5px); }
-      50% { transform: translateX(5px); }
+    body.dark .next-btn, body.dark .restart-btn, body.dark .share-btn {
+      background: linear-gradient(to right, #7f7fd5, #91eae4);
+      color: #ffffff;
+      box-shadow: 0 4px 15px rgba(120, 140, 255, 0.3);
     }
 
     .progress-bar {
-      width: 100%;
       height: 20px;
+      border-radius: 20px;
       background: #ddd;
-      border-radius: 30px;
       margin-bottom: 1.5rem;
       overflow: hidden;
     }
@@ -173,14 +184,27 @@
     .progress-fill {
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, #ffe57f, #ffca28, #ffe082);
-      background-size: 200% 100%;
+      background: linear-gradient(90deg, #ffdd57, #ffd700);
       animation: shimmer 2s infinite linear;
-      transition: width 0.5s ease;
+      transition: width 0.4s ease;
     }
 
     body.dark .progress-fill {
-      background: linear-gradient(90deg, #ffcc80, #ffb74d, #ffe082);
+      background: linear-gradient(90deg, #7f7fd5, #86a8e7);
+      box-shadow: 0 0 8px #86a8e7;
+    }
+
+    .warning {
+      background: #fff3cd;
+      border-left: 5px solid var(--gold);
+      padding: 1rem;
+      border-radius: 12px;
+      margin-top: 1rem;
+      display: none;
+    }
+
+    .warning.show {
+      display: block;
     }
 
     .loading-screen {
@@ -193,226 +217,196 @@
 
     .result {
       text-align: center;
-      animation: fadeIn 1s ease forwards;
-      opacity: 0;
-      margin-top: 1rem;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
+      display: none;
     }
 
     .result h2 {
-      font-size: 1.5rem;
+      font-size: 1.8rem;
       background: linear-gradient(to right, #ffa726, #ffeb3b);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      animation: shimmer 4s infinite linear;
     }
 
-    .result p {
-      font-size: 1.1rem;
-      line-height: 1.6;
-      color: inherit;
-    }
-
-    .result-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-      margin-top: 1rem;
-    }
-
-    /* Parallax stars + clouds (simplified) */
-    .parallax {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: 0;
-      pointer-events: none;
-      background-image: radial-gradient(circle, rgba(255,255,255,0.3) 1px, transparent 1px);
-      background-size: 50px 50px;
-      opacity: 0.3;
-      animation: float 20s linear infinite;
-    }
-
-    @keyframes float {
-      0% { transform: translateY(0px); }
-      100% { transform: translateY(-50px); }
+    body.dark .result h2 {
+      background: linear-gradient(to right, #bbdefb, #ce93d8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 6px #c5cae9;
     }
   </style>
 </head>
 <body>
-  <div class="parallax"></div>
+  <div class="curtain" id="curtain"></div>
   <header>
     <h1>🦝 Raccoon Quiz</h1>
-    <button class="toggle-btn" id="themeToggle">🌙 Theme</button>
+    <button class="toggle-btn" id="themeToggle">🌙</button>
   </header>
   <div class="container">
     <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
     <form id="quizForm">
       <div id="questions"></div>
-      <div class="warning hidden" id="warning">🦝 Please select an answer!</div>
+      <div class="warning" id="warning">🦝 Please select an option!</div>
       <button type="button" class="next-btn" id="nextBtn">Next ➡️</button>
     </form>
-    <div class="loading-screen" id="loadingScreen">🔍 Sniffing your vibes...</div>
-    <div class="result hidden" id="result">
+    <div class="loading-screen" id="loadingScreen">🔍 Sniffing your raccoon aura...</div>
+    <div class="result" id="result">
       <h2 id="resultTitle"></h2>
       <p id="resultText"></p>
-      <div class="result-buttons">
-        <button class="restart-btn hidden" id="restartBtn">🔁 Try Again</button>
-        <button class="share-btn hidden" id="shareBtn">📤 Share</button>
-      </div>
+      <button class="restart-btn" id="restartBtn">🔁 Try Again</button>
+      <button class="share-btn" id="shareBtn">📤 Share</button>
     </div>
   </div>
-
   <script>
-    const personalities = {
-      snuggler: { title: "🧸 Cuddly Snuggler", text: "You love cozy cuddles, soft corners, and warm snacks. You're the raccoon version of hot cocoa on a rainy day." },
-      party: { title: "🎉 Rowdy Raver", text: "You live for midnight mischief, loud laughter, and spontaneous trash-can discos." },
-      shadow: { title: "🌘 Silent Shadow", text: "You’re mysterious, observant, and glide through life with quiet wisdom." },
-      climber: { title: "🌲 Bold Climber", text: "Daring and adventurous, you’re always climbing higher, whether it's trees or dreams." },
-      thinker: { title: "🧐 Wise Thinker", text: "Analytical and calm, you solve problems with grace, logic, and curiosity." },
-      hunter: { title: "🦉 Night Hunter", text: "Sharp-eyed and clever, you hunt for solutions and chase your goals with laser focus." },
-      collector: { title: "✨ Shiny Collector", text: "Drawn to beauty, nostalgia, and sparkles — you gather treasures like memories." },
-      lounger: { title: "😌 Lazy Lounger", text: "Peaceful and relaxed, you remind the world that rest is sacred. Nap goals: unlocked." }
-    };
+  const personalities = {
+    snuggler: { title: "🧸 Cuddly Snuggler", text: "You love cozy cuddles, soft corners, and warm snacks. You're the raccoon version of hot cocoa on a rainy day." },
+    party: { title: "🎉 Rowdy Raver", text: "You live for midnight mischief, loud laughter, and spontaneous trash-can discos." },
+    shadow: { title: "🌘 Silent Shadow", text: "You’re mysterious, observant, and glide through life with quiet wisdom." },
+    climber: { title: "🌲 Bold Climber", text: "Daring and adventurous, you’re always climbing higher, whether it's trees or dreams." },
+    thinker: { title: "🧐 Wise Thinker", text: "Analytical and calm, you solve problems with grace, logic, and curiosity." },
+    hunter: { title: "🦉 Night Hunter", text: "Sharp-eyed and clever, you hunt for solutions and chase your goals with laser focus." },
+    collector: { title: "✨ Shiny Collector", text: "Drawn to beauty, nostalgia, and sparkles — you gather treasures like memories." },
+    lounger: { title: "😌 Lazy Lounger", text: "Peaceful and relaxed, you remind the world that rest is sacred. Nap goals: unlocked." }
+  };
 
-    const questions = [
-      { question: "Your ideal Saturday night?", options: [
-        { text: "Wrapped in a blanket with snacks", type: "snuggler" },
-        { text: "Dancing by moonlight", type: "party" },
-        { text: "Creeping through shadows", type: "shadow" },
-        { text: "Climbing something fun", type: "climber" }
-      ]},
-      { question: "What’s your secret talent?", options: [
-        { text: "Sensing emotions", type: "snuggler" },
-        { text: "Making noise", type: "party" },
-        { text: "Solving puzzles", type: "thinker" },
-        { text: "Stealing hearts... and food", type: "hunter" }
-      ]},
-      { question: "Choose a motto:", options: [
-        { text: "Every sparkle has a story", type: "collector" },
-        { text: "Laziness is strategy", type: "lounger" },
-        { text: "Climb higher", type: "climber" },
-        { text: "Observe, adapt, conquer", type: "shadow" }
-      ]},
-      { question: "What snack are you stealing first?", options: [
-        { text: "Cinnamon roll", type: "snuggler" },
-        { text: "Glowstick gummies", type: "party" },
-        { text: "Mystery sushi", type: "hunter" },
-        { text: "Nostalgic candy", type: "collector" }
-      ]},
-      { question: "How do you handle drama?", options: [
-        { text: "Silently judge", type: "shadow" },
-        { text: "Plan escape", type: "thinker" },
-        { text: "Dance through it", type: "party" },
-        { text: "Nap instead", type: "lounger" }
-      ]},
-      { question: "What’s your dream raccoon role?", options: [
-        { text: "Trash DJ", type: "party" },
-        { text: "Puzzle master", type: "thinker" },
-        { text: "Sparkle scout", type: "collector" },
-        { text: "Tree ninja", type: "climber" }
-      ]},
-      { question: "How do you make friends?", options: [
-        { text: "Offer snacks & warmth", type: "snuggler" },
-        { text: "Challenge them to climb", type: "climber" },
-        { text: "Trade shiny things", type: "collector" },
-        { text: "Be mysteriously cool", type: "shadow" }
-      ]}
-    ];
+  const questions = [
+    { question: "Your ideal Saturday night?", options: [
+      { text: "Wrapped in a blanket with snacks", type: "snuggler" },
+      { text: "Dancing by moonlight", type: "party" },
+      { text: "Creeping through shadows", type: "shadow" },
+      { text: "Climbing something fun", type: "climber" }
+    ]},
+    { question: "What’s your secret talent?", options: [
+      { text: "Sensing emotions", type: "snuggler" },
+      { text: "Making noise", type: "party" },
+      { text: "Solving puzzles", type: "thinker" },
+      { text: "Stealing hearts... and food", type: "hunter" }
+    ]},
+    { question: "Choose a motto:", options: [
+      { text: "Every sparkle has a story", type: "collector" },
+      { text: "Laziness is strategy", type: "lounger" },
+      { text: "Climb higher", type: "climber" },
+      { text: "Observe, adapt, conquer", type: "shadow" }
+    ]},
+    { question: "What snack are you stealing first?", options: [
+      { text: "Cinnamon roll", type: "snuggler" },
+      { text: "Glowstick gummies", type: "party" },
+      { text: "Mystery sushi", type: "hunter" },
+      { text: "Nostalgic candy", type: "collector" }
+    ]},
+    { question: "How do you handle drama?", options: [
+      { text: "Silently judge", type: "shadow" },
+      { text: "Plan escape", type: "thinker" },
+      { text: "Dance through it", type: "party" },
+      { text: "Nap instead", type: "lounger" }
+    ]},
+    { question: "What’s your dream raccoon role?", options: [
+      { text: "Trash DJ", type: "party" },
+      { text: "Puzzle master", type: "thinker" },
+      { text: "Sparkle scout", type: "collector" },
+      { text: "Tree ninja", type: "climber" }
+    ]},
+    { question: "How do you make friends?", options: [
+      { text: "Offer snacks & warmth", type: "snuggler" },
+      { text: "Challenge them to climb", type: "climber" },
+      { text: "Trade shiny things", type: "collector" },
+      { text: "Be mysteriously cool", type: "shadow" }
+    ]}
+  ];
 
-    let current = 0;
-    const scores = {};
-    const questionsDiv = document.getElementById("questions");
-    const nextBtn = document.getElementById("nextBtn");
-    const resultDiv = document.getElementById("result");
-    const resultTitle = document.getElementById("resultTitle");
-    const resultText = document.getElementById("resultText");
-    const restartBtn = document.getElementById("restartBtn");
-    const shareBtn = document.getElementById("shareBtn");
-    const warning = document.getElementById("warning");
-    const progressFill = document.getElementById("progressFill");
-    const quizForm = document.getElementById("quizForm");
-    const loadingScreen = document.getElementById("loadingScreen");
+  let current = 0;
+  const scores = {};
+  const questionsDiv = document.getElementById("questions");
+  const nextBtn = document.getElementById("nextBtn");
+  const resultDiv = document.getElementById("result");
+  const resultTitle = document.getElementById("resultTitle");
+  const resultText = document.getElementById("resultText");
+  const restartBtn = document.getElementById("restartBtn");
+  const shareBtn = document.getElementById("shareBtn");
+  const warning = document.getElementById("warning");
+  const progressFill = document.getElementById("progressFill");
+  const quizForm = document.getElementById("quizForm");
+  const loadingScreen = document.getElementById("loadingScreen");
+  const curtain = document.getElementById("curtain");
+  const themeToggle = document.getElementById("themeToggle");
 
-    function renderQuestion() {
-      const q = questions[current];
-      questionsDiv.innerHTML = `
-        <div class="question"><p>${q.question}</p></div>
-        ${q.options.map((opt, i) => `
-          <label>
-            <input type="radio" name="q${current}" value="${opt.type}" />
-            <span class="option">${opt.text}</span>
-          </label>`).join('')}
-      `;
-      progressFill.style.width = `${((current) / questions.length) * 100}%`;
+  function renderQuestion() {
+    const q = questions[current];
+    questionsDiv.innerHTML = `
+      <div class="question"><p>${q.question}</p></div>
+      ${q.options.map((opt, i) => `
+        <label>
+          <input type="radio" name="q${current}" value="${opt.type}" />
+          <span class="option">${opt.text}</span>
+        </label>`).join('')}
+    `;
+    progressFill.style.width = `${((current) / questions.length) * 100}%`;
+  }
+
+  function showResult() {
+    loadingScreen.style.display = "none";
+    resultDiv.style.display = "block";
+    restartBtn.style.display = "block";
+    shareBtn.style.display = "block";
+
+    let entries = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+    const [top, second] = entries;
+    const topPercent = Math.round((top[1] / questions.length) * 100);
+    const secondPercent = second ? Math.round((second[1] / questions.length) * 100) : 0;
+
+    resultTitle.textContent = `You are a... ${personalities[top[0]].title}`;
+    resultText.innerHTML = `
+      ${personalities[top[0]].text}
+      <br><br>
+      💫 Primary Personality: <strong>${personalities[top[0]].title}</strong> (${topPercent}%)
+      <br>
+      🌙 Secondary Influence: <strong>${personalities[second?.[0]]?.title || "None"}</strong> (${secondPercent}%)
+    `;
+  }
+
+  nextBtn.addEventListener("click", () => {
+    const selected = document.querySelector(`input[name="q${current}"]:checked`);
+    if (!selected) {
+      warning.classList.add("show");
+      return;
     }
-
-    function showResult() {
-      loadingScreen.style.display = "none";
-      resultDiv.classList.remove("hidden");
-      restartBtn.classList.remove("hidden");
-      shareBtn.classList.remove("hidden");
-
-      // Calculate top two
-      let entries = Object.entries(scores).sort((a, b) => b[1] - a[1]);
-      const [top, second] = entries;
-      const topPercent = Math.round((top[1] / questions.length) * 100);
-      const secondPercent = second ? Math.round((second[1] / questions.length) * 100) : 0;
-
-      resultTitle.textContent = `You are a... ${personalities[top[0]].title}`;
-      resultText.innerHTML = `
-        ${personalities[top[0]].text}
-        <br><br>
-        💫 Primary Personality: <strong>${personalities[top[0]].title}</strong> (${topPercent}%)
-        <br>
-        🌙 Secondary Influence: <strong>${personalities[second[0]].title}</strong> (${secondPercent}%)
-      `;
-    }
-
-    nextBtn.addEventListener("click", () => {
-      const selected = document.querySelector(`input[name="q${current}"]:checked`);
-      if (!selected) {
-        warning.classList.remove("hidden");
-        return;
-      }
-      warning.classList.add("hidden");
-      const type = selected.value;
-      scores[type] = (scores[type] || 0) + 1;
-      current++;
-      if (current < questions.length) {
-        renderQuestion();
-      } else {
-        quizForm.classList.add("hidden");
-        document.querySelector(".progress-bar").style.display = "none";
-        loadingScreen.style.display = "block";
-        progressFill.style.width = "100%";
-        setTimeout(showResult, 1800);
-      }
-    });
-
-    restartBtn.addEventListener("click", () => {
-      current = 0;
-      for (let k in scores) delete scores[k];
-      quizForm.classList.remove("hidden");
-      questionsDiv.innerHTML = "";
-      resultDiv.classList.add("hidden");
-      restartBtn.classList.add("hidden");
-      shareBtn.classList.add("hidden");
-      loadingScreen.style.display = "none";
-      document.querySelector(".progress-bar").style.display = "block";
+    warning.classList.remove("show");
+    const type = selected.value;
+    scores[type] = (scores[type] || 0) + 1;
+    current++;
+    if (current < questions.length) {
       renderQuestion();
-    });
+    } else {
+      quizForm.style.display = "none";
+      document.querySelector(".progress-bar").style.display = "none";
+      loadingScreen.style.display = "block";
+      progressFill.style.width = "100%";
+      setTimeout(showResult, 2000);
+    }
+  });
 
-    document.getElementById("themeToggle").addEventListener("click", () => {
-      document.body.classList.toggle("dark");
-    });
-
+  restartBtn.addEventListener("click", () => {
+    current = 0;
+    for (let k in scores) delete scores[k];
+    quizForm.style.display = "block";
+    resultDiv.style.display = "none";
+    restartBtn.style.display = "none";
+    shareBtn.style.display = "none";
+    loadingScreen.style.display = "none";
+    document.querySelector(".progress-bar").style.display = "block";
     renderQuestion();
+  });
+
+  themeToggle.addEventListener("click", () => {
+    curtain.classList.add("active");
+    setTimeout(() => {
+      document.body.classList.toggle("dark");
+    }, 300);
+    setTimeout(() => {
+      curtain.classList.remove("active");
+    }, 1000);
+  });
+
+  renderQuestion();
   </script>
 </body>
 </html>
