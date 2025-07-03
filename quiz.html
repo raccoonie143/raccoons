@@ -2,242 +2,417 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Raccoon Knowledge Quiz</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Raccoon Personality Quiz</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --bg: #fdfbfb;
-      --text: #1f2937;
-      --card: white;
-      --accent: orange;
-      --button-bg: #1f2937;
-      --button-text: white;
-    }
-
-    body.dark {
-      --bg: #1a1a1a;
-      --text: #f0f0f0;
-      --card: #2a2a2a;
-      --accent: #ffa726;
-      --button-bg: #f0f0f0;
-      --button-text: #1a1a1a;
+      --bg-light: linear-gradient(to bottom, #fffde7, #fff9c4, #ffe082);
+      --bg-dark: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+      --text-light: #2f2f2f;
+      --text-dark: #f0eada;
+      --accent-light: #ffd54f;
+      --accent-dark: #ffcc80;
+      --card-light: #ffffffdd;
+      --card-dark: #1e1e2fdd;
+      --gold: #ffd700;
     }
 
     body {
       margin: 0;
       font-family: 'Outfit', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      transition: background 0.3s, color 0.3s;
+      color: var(--text-light);
+      background: var(--bg-light);
+      transition: background 1s ease, color 0.5s ease;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body.dark {
+      background: var(--bg-dark);
+      color: var(--text-dark);
     }
 
     header {
-      background-color: #1f2937;
+      background: rgba(0, 0, 0, 0.6);
       color: white;
-      padding: 1.2rem 2rem;
+      padding: 1rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      backdrop-filter: blur(10px);
+      position: relative;
+      z-index: 2;
     }
 
     header h1 {
+      font-size: 1.8rem;
       margin: 0;
-      font-size: 1.7rem;
+      background: linear-gradient(90deg, var(--accent-light), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 3s infinite linear;
     }
 
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin-left: 20px;
-      font-weight: bold;
-      padding: 8px 14px;
-      background-color: var(--accent);
-      border-radius: 20px;
-      transition: background 0.3s ease;
+    @keyframes shimmer {
+      0% { background-position: 0% }
+      100% { background-position: 100% }
     }
 
-    nav a:hover {
-      background-color: #ff9900;
-    }
-
-    .dark-toggle {
-      margin-left: 1rem;
-      padding: 6px 10px;
-      border-radius: 8px;
-      background: none;
+    .toggle-btn {
+      background: transparent;
       border: 2px solid white;
+      border-radius: 30px;
+      padding: 0.4rem 1rem;
       color: white;
       cursor: pointer;
+      transition: 0.5s;
+    }
+
+    .toggle-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
     }
 
     .container {
-      max-width: 800px;
-      margin: 3rem auto;
-      padding: 1rem;
-      background: var(--card);
+      max-width: 750px;
+      margin: 2rem auto;
+      background: var(--card-light);
       border-radius: 20px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      backdrop-filter: blur(8px);
+      animation: fadeSlide 1s ease;
+      position: relative;
+      z-index: 1;
     }
 
-    h2 {
-      text-align: center;
-      color: var(--accent);
+    body.dark .container {
+      background: var(--card-dark);
     }
 
-    .question {
-      margin-top: 2rem;
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .question p {
+      font-size: 1.3rem;
       font-weight: bold;
+      margin-bottom: 1rem;
     }
 
-    label {
+    .option {
       display: block;
-      margin: 0.5rem 0;
-    }
-
-    .submit-btn {
-      display: block;
-      margin: 2rem auto 0;
-      padding: 0.8rem 1.5rem;
-      background-color: var(--button-bg);
-      color: var(--button-text);
-      border: none;
-      border-radius: 10px;
-      font-weight: bold;
+      background: rgba(255, 255, 255, 0.7);
+      padding: 0.8rem 1.2rem;
+      margin: 0.6rem 0;
+      border-radius: 14px;
       cursor: pointer;
-      transition: background 0.3s ease;
+      transition: 0.3s;
+      border: 2px solid transparent;
     }
 
-    .submit-btn:hover {
-      opacity: 0.9;
+    input[type="radio"] { display: none; }
+    input:checked + .option {
+      background: var(--accent-light);
+      border-color: var(--gold);
+      box-shadow: 0 0 10px var(--accent-light);
+      transform: scale(1.02);
+    }
+
+    body.dark input:checked + .option {
+      background: var(--accent-dark);
+    }
+
+    .next-btn, .restart-btn, .share-btn {
+      display: block;
+      margin: 1.5rem auto;
+      padding: 0.8rem 2rem;
+      font-size: 1.1rem;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      background: var(--gold);
+      color: #333;
+      transition: transform 0.3s ease;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    }
+
+    .next-btn:hover, .restart-btn:hover, .share-btn:hover {
+      transform: scale(1.06);
+    }
+
+    .warning {
+      margin-top: 1rem;
+      background: #fff3cd;
+      border: 2px dashed var(--gold);
+      border-radius: 12px;
+      padding: 1rem;
+      animation: shake 0.3s ease;
+      text-align: center;
+    }
+
+    .warning.hidden, .hidden { display: none; }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 20px;
+      background: #ddd;
+      border-radius: 30px;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #ffe57f, #ffca28, #ffe082);
+      background-size: 200% 100%;
+      animation: shimmer 2s infinite linear;
+      transition: width 0.5s ease;
+    }
+
+    body.dark .progress-fill {
+      background: linear-gradient(90deg, #ffcc80, #ffb74d, #ffe082);
+    }
+
+    .loading-screen {
+      text-align: center;
+      padding: 2rem;
+      font-style: italic;
+      font-size: 1.2rem;
+      display: none;
     }
 
     .result {
-      margin-top: 2rem;
       text-align: center;
-      font-weight: bold;
-      font-size: 1.2rem;
-      min-height: 40px;
+      animation: fadeIn 1s ease forwards;
+      opacity: 0;
+      margin-top: 1rem;
     }
 
-    .back-link {
-      display: block;
-      margin: 2rem auto;
-      text-align: center;
-      color: var(--text);
-      font-weight: bold;
-      text-decoration: none;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
     }
 
-    .confetti {
-      animation: pop 0.4s ease forwards;
-      color: var(--accent);
-      font-size: 2rem;
-      text-align: center;
+    .result h2 {
+      font-size: 1.5rem;
+      background: linear-gradient(to right, #ffa726, #ffeb3b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 4s infinite linear;
     }
 
-    @keyframes pop {
-      0% { transform: scale(0.5); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
+    .result p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: inherit;
+    }
+
+    .result-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    /* Parallax stars + clouds (simplified) */
+    .parallax {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.3) 1px, transparent 1px);
+      background-size: 50px 50px;
+      opacity: 0.3;
+      animation: float 20s linear infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      100% { transform: translateY(-50px); }
     }
   </style>
 </head>
 <body>
+  <div class="parallax"></div>
   <header>
-    <h1>🧠 Raccoon Quiz</h1>
-    <nav>
-      <a href="index.html">Back to Home</a>
-      <button onclick="toggleDarkMode()" class="dark-toggle" id="themeToggle">🌙</button>
-    </nav>
+    <h1>🦝 Raccoon Quiz</h1>
+    <button class="toggle-btn" id="themeToggle">🌙 Theme</button>
   </header>
-
   <div class="container">
-    <h2>How Much Do You Know About Raccoons?</h2>
-
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
     <form id="quizForm">
-      <div class="question">
-        <p>1. What do raccoons use their paws for the most?</p>
-        <label><input type="radio" name="q1" value="a"> Fighting</label>
-        <label><input type="radio" name="q1" value="b"> Sensing and feeling</label>
-        <label><input type="radio" name="q1" value="c"> Running</label>
-      </div>
-
-      <div class="question">
-        <p>2. What does it mean when a raccoon dunks its food in water?</p>
-        <label><input type="radio" name="q2" value="a"> Cleaning it</label>
-        <label><input type="radio" name="q2" value="b"> Enhancing touch sensitivity</label>
-        <label><input type="radio" name="q2" value="c"> Making it tastier</label>
-      </div>
-
-      <div class="question">
-        <p>3. When are raccoons most active?</p>
-        <label><input type="radio" name="q3" value="a"> Morning</label>
-        <label><input type="radio" name="q3" value="b"> Noon</label>
-        <label><input type="radio" name="q3" value="c"> Dawn and dusk</label>
-      </div>
-
-      <button type="button" class="submit-btn" onclick="checkAnswers()">Submit Answers</button>
+      <div id="questions"></div>
+      <div class="warning hidden" id="warning">🦝 Please select an answer!</div>
+      <button type="button" class="next-btn" id="nextBtn">Next ➡️</button>
     </form>
-
-    <div class="result" id="result"></div>
-    <div class="confetti" id="confetti"></div>
-
-    <a class="back-link" href="index.html">⬅ Return to Trash Panda Paradise</a>
+    <div class="loading-screen" id="loadingScreen">🔍 Sniffing your vibes...</div>
+    <div class="result hidden" id="result">
+      <h2 id="resultTitle"></h2>
+      <p id="resultText"></p>
+      <div class="result-buttons">
+        <button class="restart-btn hidden" id="restartBtn">🔁 Try Again</button>
+        <button class="share-btn hidden" id="shareBtn">📤 Share</button>
+      </div>
+    </div>
   </div>
 
   <script>
-    function toggleDarkMode() {
-      const body = document.body;
-      const toggle = document.getElementById('themeToggle');
-      const isDark = body.classList.toggle('dark');
-      toggle.textContent = isDark ? '☀️' : '🌙';
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    const personalities = {
+      snuggler: { title: "🧸 Cuddly Snuggler", text: "You love cozy cuddles, soft corners, and warm snacks. You're the raccoon version of hot cocoa on a rainy day." },
+      party: { title: "🎉 Rowdy Raver", text: "You live for midnight mischief, loud laughter, and spontaneous trash-can discos." },
+      shadow: { title: "🌘 Silent Shadow", text: "You’re mysterious, observant, and glide through life with quiet wisdom." },
+      climber: { title: "🌲 Bold Climber", text: "Daring and adventurous, you’re always climbing higher, whether it's trees or dreams." },
+      thinker: { title: "🧐 Wise Thinker", text: "Analytical and calm, you solve problems with grace, logic, and curiosity." },
+      hunter: { title: "🦉 Night Hunter", text: "Sharp-eyed and clever, you hunt for solutions and chase your goals with laser focus." },
+      collector: { title: "✨ Shiny Collector", text: "Drawn to beauty, nostalgia, and sparkles — you gather treasures like memories." },
+      lounger: { title: "😌 Lazy Lounger", text: "Peaceful and relaxed, you remind the world that rest is sacred. Nap goals: unlocked." }
+    };
+
+    const questions = [
+      { question: "Your ideal Saturday night?", options: [
+        { text: "Wrapped in a blanket with snacks", type: "snuggler" },
+        { text: "Dancing by moonlight", type: "party" },
+        { text: "Creeping through shadows", type: "shadow" },
+        { text: "Climbing something fun", type: "climber" }
+      ]},
+      { question: "What’s your secret talent?", options: [
+        { text: "Sensing emotions", type: "snuggler" },
+        { text: "Making noise", type: "party" },
+        { text: "Solving puzzles", type: "thinker" },
+        { text: "Stealing hearts... and food", type: "hunter" }
+      ]},
+      { question: "Choose a motto:", options: [
+        { text: "Every sparkle has a story", type: "collector" },
+        { text: "Laziness is strategy", type: "lounger" },
+        { text: "Climb higher", type: "climber" },
+        { text: "Observe, adapt, conquer", type: "shadow" }
+      ]},
+      { question: "What snack are you stealing first?", options: [
+        { text: "Cinnamon roll", type: "snuggler" },
+        { text: "Glowstick gummies", type: "party" },
+        { text: "Mystery sushi", type: "hunter" },
+        { text: "Nostalgic candy", type: "collector" }
+      ]},
+      { question: "How do you handle drama?", options: [
+        { text: "Silently judge", type: "shadow" },
+        { text: "Plan escape", type: "thinker" },
+        { text: "Dance through it", type: "party" },
+        { text: "Nap instead", type: "lounger" }
+      ]},
+      { question: "What’s your dream raccoon role?", options: [
+        { text: "Trash DJ", type: "party" },
+        { text: "Puzzle master", type: "thinker" },
+        { text: "Sparkle scout", type: "collector" },
+        { text: "Tree ninja", type: "climber" }
+      ]},
+      { question: "How do you make friends?", options: [
+        { text: "Offer snacks & warmth", type: "snuggler" },
+        { text: "Challenge them to climb", type: "climber" },
+        { text: "Trade shiny things", type: "collector" },
+        { text: "Be mysteriously cool", type: "shadow" }
+      ]}
+    ];
+
+    let current = 0;
+    const scores = {};
+    const questionsDiv = document.getElementById("questions");
+    const nextBtn = document.getElementById("nextBtn");
+    const resultDiv = document.getElementById("result");
+    const resultTitle = document.getElementById("resultTitle");
+    const resultText = document.getElementById("resultText");
+    const restartBtn = document.getElementById("restartBtn");
+    const shareBtn = document.getElementById("shareBtn");
+    const warning = document.getElementById("warning");
+    const progressFill = document.getElementById("progressFill");
+    const quizForm = document.getElementById("quizForm");
+    const loadingScreen = document.getElementById("loadingScreen");
+
+    function renderQuestion() {
+      const q = questions[current];
+      questionsDiv.innerHTML = `
+        <div class="question"><p>${q.question}</p></div>
+        ${q.options.map((opt, i) => `
+          <label>
+            <input type="radio" name="q${current}" value="${opt.type}" />
+            <span class="option">${opt.text}</span>
+          </label>`).join('')}
+      `;
+      progressFill.style.width = `${((current) / questions.length) * 100}%`;
     }
 
-    function applyStoredTheme() {
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'dark') {
-        document.body.classList.add('dark');
-        document.getElementById('themeToggle').textContent = '☀️';
-      }
+    function showResult() {
+      loadingScreen.style.display = "none";
+      resultDiv.classList.remove("hidden");
+      restartBtn.classList.remove("hidden");
+      shareBtn.classList.remove("hidden");
+
+      // Calculate top two
+      let entries = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+      const [top, second] = entries;
+      const topPercent = Math.round((top[1] / questions.length) * 100);
+      const secondPercent = second ? Math.round((second[1] / questions.length) * 100) : 0;
+
+      resultTitle.textContent = `You are a... ${personalities[top[0]].title}`;
+      resultText.innerHTML = `
+        ${personalities[top[0]].text}
+        <br><br>
+        💫 Primary Personality: <strong>${personalities[top[0]].title}</strong> (${topPercent}%)
+        <br>
+        🌙 Secondary Influence: <strong>${personalities[second[0]].title}</strong> (${secondPercent}%)
+      `;
     }
 
-    function checkAnswers() {
-      const answers = {
-        q1: 'b',
-        q2: 'b',
-        q3: 'c'
-      };
-
-      let score = 0;
-      for (const question in answers) {
-        const radios = document.getElementsByName(question);
-        for (const radio of radios) {
-          if (radio.checked && radio.value === answers[question]) {
-            score++;
-          }
-        }
+    nextBtn.addEventListener("click", () => {
+      const selected = document.querySelector(`input[name="q${current}"]:checked`);
+      if (!selected) {
+        warning.classList.remove("hidden");
+        return;
       }
-
-      const result = document.getElementById('result');
-      const confetti = document.getElementById('confetti');
-      confetti.textContent = '';
-
-      if (score === 3) {
-        result.textContent = `🎉 Perfect! You're a true trash panda expert! (${score}/3)`;
-        confetti.textContent = '🎊🎊🎊';
-      } else if (score === 2) {
-        result.textContent = `🧐 Almost there! You know your raccoons pretty well. (${score}/3)`;
+      warning.classList.add("hidden");
+      const type = selected.value;
+      scores[type] = (scores[type] || 0) + 1;
+      current++;
+      if (current < questions.length) {
+        renderQuestion();
       } else {
-        result.textContent = `😅 Better luck next time! Maybe study more trash panda facts. (${score}/3)`;
+        quizForm.classList.add("hidden");
+        document.querySelector(".progress-bar").style.display = "none";
+        loadingScreen.style.display = "block";
+        progressFill.style.width = "100%";
+        setTimeout(showResult, 1800);
       }
-    }
+    });
 
-    // Apply theme on load
-    applyStoredTheme();
+    restartBtn.addEventListener("click", () => {
+      current = 0;
+      for (let k in scores) delete scores[k];
+      quizForm.classList.remove("hidden");
+      questionsDiv.innerHTML = "";
+      resultDiv.classList.add("hidden");
+      restartBtn.classList.add("hidden");
+      shareBtn.classList.add("hidden");
+      loadingScreen.style.display = "none";
+      document.querySelector(".progress-bar").style.display = "block";
+      renderQuestion();
+    });
+
+    document.getElementById("themeToggle").addEventListener("click", () => {
+      document.body.classList.toggle("dark");
+    });
+
+    renderQuestion();
   </script>
 </body>
 </html>
