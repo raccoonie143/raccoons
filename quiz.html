@@ -1,412 +1,1580 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Raccoon Personality Quiz</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --gold: #ffd700;
-      --glow-light: #fff9c4;
-      --glow-dark: #a1c4fd;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Raccoon Odyssey: Discover Your Nocturnal Soul</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        /* CSS Variables for Dynamic Theming */
+        :root {
+            /* Light Mode - Sun, Sky, Clouds */
+            --primary-light: #e0f7fa; /* Light sky blue */
+            --secondary-light: #f0faff; /* Lighter blue, almost white */
+            --accent-light: #FFD700; /* Sunny Gold */
+            --text-light: #3a3a40; /* Dark grey for readability */
+            --card-bg-light: rgba(230, 245, 255, 0.75); /* Frosted light blue for cards/header */
+            --option-bg-light: rgba(255, 255, 255, 0.7); /* More transparent white for options */
+            --border-light: rgba(0, 0, 0, 0.1);
+            --glow-light: #FFFACD; /* Pale yellow, like sun glow */
+            --btn-light-gradient: linear-gradient(45deg, #FFC107, #FFA000); /* Warm Orange */
+            --particle-color-light: rgba(255, 255, 200, 0.7); /* Sunray particle color */
 
-    body {
-      margin: 0;
-      font-family: 'Outfit', sans-serif;
-      transition: background 1s ease, color 0.5s ease;
-      overflow-x: hidden;
-      position: relative;
-      color: #2c2c2c;
-      background: url('https://thumbs.dreamstime.com/b/illustration-beautiful-sky-background-clouds-illustration-generated-use-ai-beautiful-sky-background-356243882.jpg') no-repeat center/cover;
-    }
+            /* Dark Mode - Galaxy, Stars, Night Sky */
+            --primary-dark: #100f2a; /* Deep, almost black blue-purple */
+            --secondary-dark: #07061d; /* Even darker */
+            --accent-dark: #8A2BE2; /* Amethyst Violet */
+            --text-dark: #e6e6fa; /* Lavender blush for cosmic feel */
+            --card-bg-dark: rgba(15, 10, 30, 0.8); /* Translucent cosmic blue for cards/header */
+            --option-bg-dark: rgba(25, 15, 45, 0.7); /* More transparent dark for options */
+            --border-dark: rgba(255, 255, 255, 0.15);
+            --glow-dark: #E6E6FA; /* Soft white/lavender for stars */
+            --btn-dark-gradient: linear-gradient(45deg, #8A2BE2, #6A0DAD); /* Deep Violet */
+            --particle-color-dark: rgba(255, 255, 255, 0.8); /* Star particle color */
 
-    body.dark {
-      background: url('https://i.redd.it/l7m2l5pqiwie1.png') no-repeat center/cover;
-      color: #e8e6ff;
-    }
+            /* Universal */
+            --transition-speed: 0.8s ease-in-out;
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Montserrat', sans-serif;
+            --max-container-width: 780px;
+        }
 
-    .curtain {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(to bottom, #fceabb, #f8b500);
-      z-index: 999;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.8s ease;
-    }
+        /* Base Styles */
+        html {
+            scroll-behavior: smooth;
+        }
 
-    body.dark .curtain {
-      background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
-    }
+        body {
+            margin: 0;
+            font-family: var(--font-body);
+            color: var(--text-light);
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+            background-color: var(--primary-light); /* Fallback */
+        }
 
-    .curtain.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
+        body.dark {
+            color: var(--text-dark);
+            background-color: var(--primary-dark); /* Fallback */
+        }
 
-    header {
-      background: rgba(255,255,255,0.3);
-      backdrop-filter: blur(10px);
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 2;
-      position: relative;
-    }
+        /* Dynamic Backgrounds */
+        .background-scene {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -1;
+            background-size: cover;
+            background-position: center center;
+            transition: background-image var(--transition-speed), filter var(--transition-speed);
+            filter: brightness(1) saturate(1); /* Initial filter for light mode */
+        }
 
-    body.dark header {
-      background: rgba(0, 0, 0, 0.6);
-    }
+        /* Specific Background Images */
+        .background-scene.light {
+            background-image: url('https://thumbs.dreamstime.com/b/illustration-beautiful-sky-background-clouds-illustration-generated-use-ai-beautiful-sky-background-356243882.jpg');
+        }
+        .background-scene.dark {
+            background-image: url('https://thumbs.dreamstime.com/b/beautiful-night-sky-shooting-star-peaceful-landscape-lake-anime-background-wallpaper-mountains-326645746.jpg');
+            filter: brightness(0.8) saturate(1.1); /* Enhance dark mode visuals */
+        }
 
-    header h1 {
-      font-size: 2rem;
-      margin: 0;
-      background: linear-gradient(90deg, #ffa726, #ffd54f);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: glow 2s ease-in-out infinite;
-    }
+        /* Celestial Fade Transition Effect */
+        .celestial-fade {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary-light), var(--accent-light)); /* Default light */
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.7s ease, background 0.7s ease; /* Smooth fade and gradient change */
+        }
 
-    body.dark header h1 {
-      background: linear-gradient(90deg, #91eae4, #7f7fd5, #e1bee7);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 8px #7f7fd5;
-    }
+        .celestial-fade.active {
+            opacity: 1;
+            pointer-events: auto;
+            /* Animation for fade in and out */
+            animation: celestialFadeInOut 1.4s forwards;
+        }
 
-    @keyframes glow {
-      0%, 100% { text-shadow: 0 0 5px var(--glow-light); }
-      50% { text-shadow: 0 0 15px var(--gold); }
-    }
+        @keyframes celestialFadeInOut {
+            0% { opacity: 0; }
+            50% { opacity: 1; } /* Fully visible in the middle of transition */
+            100% { opacity: 0; }
+        }
 
-    .toggle-btn {
-      background: transparent;
-      border: 2px solid currentColor;
-      padding: 0.5rem 1rem;
-      border-radius: 30px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
-      color: inherit;
-    }
+        body.dark .celestial-fade {
+             background: linear-gradient(45deg, var(--primary-dark), var(--accent-dark));
+        }
 
-    .container {
-      max-width: 750px;
-      margin: 2rem auto;
-      background: rgba(255,255,255,0.75);
-      border-radius: 20px;
-      padding: 2rem;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      position: relative;
-    }
+        /* Header */
+        header {
+            background: var(--card-bg-light); /* Blended background */
+            backdrop-filter: blur(15px);
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid var(--border-light);
+        }
 
-    body.dark .container {
-      background: rgba(10,10,30,0.7);
-      box-shadow: 0 10px 30px rgba(255,255,255,0.15);
-      color: #e8e6ff;
-    }
+        body.dark header {
+            background: var(--card-bg-dark); /* Blended background for dark */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid var(--border-dark);
+        }
 
-    .question p,
-    .result p,
-    .option {
-      color: inherit;
-    }
+        header h1 {
+            font-family: var(--font-heading);
+            font-size: 2.8rem;
+            margin: 0;
+            background: linear-gradient(90deg, var(--accent-light), var(--glow-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textGlowLight 2s ease-in-out infinite alternate;
+            letter-spacing: 1px;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.4); /* Enhanced text shadow */
+        }
 
-    .option {
-      display: block;
-      padding: 0.8rem 1.2rem;
-      margin: 0.6rem 0;
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.6);
-      cursor: pointer;
-      transition: 0.3s;
-    }
+        body.dark header h1 {
+            background: linear-gradient(90deg, var(--accent-dark), var(--glow-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textGlowDark 2s ease-in-out infinite alternate;
+            text-shadow: 0 0 10px rgba(138, 43, 226, 0.6); /* Enhanced text shadow */
+        }
 
-    body.dark .option {
-      background: rgba(80, 80, 110, 0.5);
-      border: 1px solid rgba(150,150,255,0.2);
-    }
+        @keyframes textGlowLight {
+            0%, 100% { text-shadow: 0 0 5px var(--glow-light), 0 0 10px rgba(255, 165, 0, 0.2); }
+            50% { text-shadow: 0 0 15px var(--glow-light), 0 0 25px var(--accent-light); }
+        }
+        @keyframes textGlowDark {
+            0%, 100% { text-shadow: 0 0 5px var(--glow-dark), 0 0 10px rgba(138, 43, 226, 0.2); }
+            50% { text-shadow: 0 0 15px var(--glow-dark), 0 0 25px var(--accent-dark); }
+        }
 
-    .option:hover {
-      background: var(--gold);
-      transform: scale(1.03);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
+        /* Theme Toggle Button */
+        .toggle-btn {
+            background: transparent;
+            border: 2px solid currentColor;
+            padding: 0.7rem 1.4rem;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-light);
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            outline: none;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            background-color: rgba(255, 255, 255, 0.3); /* Slightly transparent background */
+            backdrop-filter: blur(5px);
+        }
 
-    body.dark .option:hover {
-      background: #7f7fd5;
-      color: #fff;
-      box-shadow: 0 0 12px rgba(140, 160, 255, 0.5);
-    }
+        body.dark .toggle-btn {
+            color: var(--text-dark);
+            box-shadow: 0 2px 10px rgba(255,255,255,0.05);
+            background-color: rgba(0, 0, 0, 0.3); /* Slightly transparent background */
+        }
 
-    input[type="radio"] { display: none; }
-    input:checked + .option {
-      border: 2px solid var(--gold);
-      background: var(--gold);
-      font-weight: bold;
-    }
+        .toggle-btn:hover {
+            background: var(--accent-light);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 165, 0, 0.3);
+        }
+        body.dark .toggle-btn:hover {
+            background: var(--accent-dark);
+            color: white; /* Dark mode buttons will have white text on hover */
+            box-shadow: 0 6px 15px rgba(138, 43, 226, 0.4);
+        }
 
-    .next-btn, .restart-btn, .share-btn {
-      display: block;
-      margin: 1.5rem auto;
-      padding: 0.8rem 2rem;
-      font-size: 1.1rem;
-      border-radius: 50px;
-      border: none;
-      cursor: pointer;
-      font-weight: bold;
-      background: linear-gradient(to right, #ffcc70, #ffeb3b);
-      color: #333;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
+        /* Main Container */
+        .container {
+            max-width: var(--max-container-width);
+            width: 90%;
+            margin: 3rem auto;
+            background: var(--card-bg-light); /* Blended background */
+            border-radius: 25px;
+            padding: 3.5rem;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 5;
+            animation: fadeIn 0.8s ease-out;
+            border: 1px solid var(--border-light);
+            flex-grow: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
 
-    body.dark .next-btn, body.dark .restart-btn, body.dark .share-btn {
-      background: linear-gradient(to right, #7f7fd5, #91eae4);
-      color: #ffffff;
-      box-shadow: 0 4px 15px rgba(120, 140, 255, 0.3);
-    }
+        body.dark .container {
+            background: var(--card-bg-dark); /* Blended background for dark */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-dark);
+        }
 
-    .progress-bar {
-      height: 20px;
-      border-radius: 20px;
-      background: #ddd;
-      margin-bottom: 1.5rem;
-      overflow: hidden;
-    }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #ffdd57, #ffd700);
-      animation: shimmer 2s infinite linear;
-      transition: width 0.4s ease;
-    }
+        /* Question & Options */
+        .question-wrapper {
+            position: relative;
+            min-height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
 
-    body.dark .progress-fill {
-      background: linear-gradient(90deg, #7f7fd5, #86a8e7);
-      box-shadow: 0 0 8px #86a8e7;
-    }
+        .question-content {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+            width: 100%;
+        }
+        .question-content.fade-out {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
 
-    .warning {
-      background: #fff3cd;
-      border-left: 5px solid var(--gold);
-      padding: 1rem;
-      border-radius: 12px;
-      margin-top: 1rem;
-      display: none;
-    }
+        .question p {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+            line-height: 1.4;
+            color: var(--text-light);
+        }
+        body.dark .question p {
+            color: var(--text-dark);
+        }
 
-    .warning.show {
-      display: block;
-    }
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 1rem 1.8rem;
+            margin: 1rem 0;
+            border-radius: 18px;
+            background: var(--option-bg-light);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            font-size: 1.1rem;
+            font-weight: 400;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            overflow: hidden;
+            transform: translateZ(0); /* For smoother animation */
+        }
 
-    .loading-screen {
-      text-align: center;
-      padding: 2rem;
-      font-style: italic;
-      font-size: 1.2rem;
-      display: none;
-    }
+        body.dark .option {
+            background: var(--option-bg-dark);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
 
-    .result {
-      text-align: center;
-      display: none;
-    }
+        .option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--accent-light);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease-out;
+            z-index: -1;
+        }
+        body.dark .option::before {
+            background: var(--accent-dark);
+        }
 
-    .result h2 {
-      font-size: 1.8rem;
-      background: linear-gradient(to right, #ffa726, #ffeb3b);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+        .option .icon {
+            font-size: 1.3rem;
+            color: var(--accent-light);
+            transition: color 0.3s ease;
+        }
+        body.dark .option .icon {
+            color: var(--accent-dark);
+        }
 
-    body.dark .result h2 {
-      background: linear-gradient(to right, #bbdefb, #ce93d8);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 6px #c5cae9;
-    }
-  </style>
+        .option:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            color: var(--text-light);
+            animation: shimmerEffect 0.8s infinite alternate; /* Shimmer effect on hover */
+        }
+        body.dark .option:hover {
+             color: var(--text-dark);
+        }
+
+        .option:hover::before {
+            transform: scaleX(1);
+        }
+
+        .option:hover .icon {
+            color: white;
+        }
+        body.dark .option:hover .icon {
+             color: white; /* Dark mode option icon will be white on hover */
+        }
+
+        @keyframes shimmerEffect {
+            from { box-shadow: 0 10px 25px rgba(0,0,0,0.15), 0 0 10px rgba(255, 215, 0, 0.1); }
+            to { box-shadow: 0 10px 25px rgba(0,0,0,0.25), 0 0 20px rgba(255, 215, 0, 0.3); }
+        }
+        body.dark @keyframes shimmerEffect {
+            from { box-shadow: 0 10px 25px rgba(0,0,0,0.15), 0 0 10px rgba(138, 43, 226, 0.1); }
+            to { box-shadow: 0 10px 25px rgba(0,0,0,0.25), 0 0 20px rgba(138, 43, 226, 0.3); }
+        }
+
+        input[type="radio"] { display: none; }
+        input:checked + .option {
+            border: 2px solid var(--accent-light);
+            background: var(--accent-light);
+            font-weight: 700;
+            transform: scale(1.02);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+            animation: pulseSelect 0.4s ease forwards;
+            color: white;
+        }
+        body.dark input:checked + .option {
+            border-color: var(--accent-dark);
+            background: var(--accent-dark);
+            color: white; /* Dark mode selected option text will be white */
+        }
+
+        input:checked + .option .icon {
+            color: white;
+            transform: scale(1.2);
+        }
+        body.dark input:checked + .option .icon {
+            color: white; /* Dark mode selected option icon will be white */
+        }
+
+        @keyframes pulseSelect {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1.02); }
+        }
+
+        /* Buttons */
+        .next-btn, .restart-btn, .share-btn-main, .generate-card-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 2.5rem auto 1.5rem auto;
+            padding: 1.1rem 2.8rem;
+            font-size: 1.25rem;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            background: var(--btn-light-gradient);
+            color: white;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            width: fit-content;
+        }
+
+        body.dark .next-btn, body.dark .restart-btn, body.dark .share-btn-main, body.dark .generate-card-btn {
+            background: var(--btn-dark-gradient);
+            color: white; /* Dark mode buttons will have white text */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        }
+
+        .next-btn::after, .restart-btn::after, .share-btn-main::after, .generate-card-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            opacity: 0;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease-out, height 0.4s ease-out, opacity 0.4s ease-out;
+            z-index: -1;
+        }
+
+        .next-btn:hover::after, .restart-btn:hover::after, .share-btn-main:hover::after, .generate-card-btn:hover::after {
+            width: 300px;
+            height: 300px;
+            opacity: 1;
+        }
+
+        .next-btn:hover, .restart-btn:hover, .share-btn-main:hover, .generate-card-btn:hover {
+            transform: translateY(-7px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.35);
+        }
+        body.dark .next-btn:hover, body.dark .restart-btn:hover, body.dark .share-btn-main:hover, body.dark .generate-card-btn:hover {
+            box-shadow: 0 15px 35px rgba(0,0,0,0.55);
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            height: 28px;
+            border-radius: 14px;
+            background: rgba(0, 0, 0, 0.1);
+            margin-bottom: 2.5rem;
+            overflow: hidden;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        body.dark .progress-bar {
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: inset 0 2px 8px rgba(255,255,255,0.1);
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--glow-light), var(--accent-light));
+            animation: progressShimmerLight 2s infinite linear;
+            transition: width 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border-radius: 14px;
+            box-shadow: 0 0 10px rgba(255, 165, 0, 0.5);
+        }
+
+        body.dark .progress-fill {
+            background: linear-gradient(90deg, var(--glow-dark), var(--accent-dark));
+            animation: progressShimmerDark 2s infinite linear;
+            box-shadow: 0 0 12px rgba(138, 43, 226, 0.7);
+        }
+
+        @keyframes progressShimmerLight {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        @keyframes progressShimmerDark {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        /* Elegant Tooltip Warning */
+        .warning {
+            background: rgba(255, 250, 205, 0.95);
+            border-left: 5px solid var(--accent-light);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            margin-top: 1.5rem;
+            display: none;
+            color: #8B8000;
+            font-weight: 500;
+            animation: shake 0.5s ease-in-out;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 1rem;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+
+        .warning::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%) rotate(45deg);
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 250, 205, 0.95);
+            border-right: 1px solid var(--accent-light);
+            border-bottom: 1px solid var(--accent-light);
+            z-index: -1;
+        }
+
+        body.dark .warning {
+            background: rgba(30, 37, 45, 0.95);
+            border-left-color: var(--accent-dark);
+            color: #92e6f0;
+        }
+        body.dark .warning::after {
+            background: rgba(30, 37, 45, 0.95);
+            border-right-color: var(--accent-dark);
+            border-bottom-color: var(--accent-dark);
+        }
+
+        .warning.show {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(-50%) rotate(0deg); }
+            20%, 60% { transform: translateX(-52%) rotate(-1deg); }
+            40%, 80% { transform: translateX(-48%) rotate(1deg); }
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            text-align: center;
+            padding: 4rem;
+            font-family: var(--font-heading);
+            font-style: italic;
+            font-size: 1.8rem;
+            color: var(--text-light);
+            display: none;
+            animation: pulseText 1.8s infinite ease-in-out alternate;
+        }
+
+        body.dark .loading-screen {
+            color: var(--text-dark);
+        }
+
+        @keyframes pulseText {
+            from { transform: scale(1); opacity: 0.7; }
+            to { transform: scale(1.03); opacity: 1; }
+        }
+
+        .loading-screen i {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 15px;
+            color: var(--accent-light);
+            animation: spinRaccoon 2s infinite linear;
+        }
+        body.dark .loading-screen i {
+            color: var(--accent-dark);
+        }
+
+        @keyframes spinRaccoon {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Result Section */
+        .result {
+            text-align: center;
+            display: none;
+            padding-top: 1.5rem;
+        }
+
+        .result h2 {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            background: linear-gradient(to right, var(--accent-light), var(--glow-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+            animation: textPopIn 0.8s ease-out forwards;
+            line-height: 1.2;
+            text-shadow: 0 0 10px rgba(255, 165, 0, 0.4);
+        }
+
+        body.dark .result h2 {
+            background: linear-gradient(to right, var(--accent-dark), var(--glow-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 12px rgba(138, 43, 226, 0.6);
+        }
+
+        @keyframes textPopIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .result p {
+            font-size: 1.3rem;
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+            color: var(--text-light);
+        }
+
+        body.dark .result p {
+            color: var(--text-dark);
+        }
+
+        .result p strong {
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--accent-light), var(--glow-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 5px rgba(255, 165, 0, 0.2);
+        }
+        body.dark .result p strong {
+            background: linear-gradient(45deg, var(--accent-dark), var(--glow-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 5px rgba(138, 43, 226, 0.2);
+        }
+
+        /* Raccoon Images (Intro & Result) */
+        .raccoon-illustration {
+            margin: 2rem auto;
+            max-width: 80%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            animation: imagePop 0.8s ease-out forwards;
+            object-fit: contain; /* Ensure images fit well */
+            display: block; /* Ensures centering with margin: auto */
+            filter: drop-shadow(0 0 8px rgba(0,0,0,0.3)); /* Base shadow */
+            transition: filter 0.3s ease;
+        }
+
+        /* Glow effect for images */
+        .image-glow-light {
+            filter: drop-shadow(0 0 12px var(--accent-light)) drop-shadow(0 0 20px var(--glow-light));
+        }
+        .image-glow-dark {
+            filter: drop-shadow(0 0 12px var(--accent-dark)) drop-shadow(0 0 20px var(--glow-dark));
+        }
+
+
+        @keyframes imagePop {
+            from { opacity: 0; transform: scale(0.7) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        /* Confetti Effect */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 999;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background-color: var(--accent-light);
+            opacity: 0;
+            animation: fall 3s ease-out forwards;
+            border-radius: 50%; /* Default to circle */
+            filter: blur(0.5px);
+        }
+
+        .confetti:nth-child(2n) { background-color: var(--glow-light); }
+        .confetti:nth-child(3n) { background-color: #ff6f61; border-radius: 0; transform: rotate(45deg); } /* Squares */
+        .confetti:nth-child(4n) { background-color: #83d475; }
+
+        body.dark .confetti {
+            background-color: var(--accent-dark);
+        }
+        body.dark .confetti:nth-child(2n) { background-color: var(--glow-dark); }
+        body.dark .confetti:nth-child(3n) { background-color: #bbdefb; border-radius: 0; transform: rotate(45deg); } /* Blueish Squares */
+        body.dark .confetti:nth-child(4n) { background-color: #e1bee7; } /* Purplish */
+
+        @keyframes fall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* Particle Effects */
+        .particle-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -2;
+        }
+
+        .particle {
+            position: absolute;
+            background-color: var(--particle-color-light);
+            border-radius: 50%;
+            opacity: 0;
+            animation: floatAndFade 15s infinite ease-in-out;
+            filter: blur(0.8px); /* Slightly more blur for soft look */
+        }
+        body.dark .particle {
+            background-color: var(--particle-color-dark);
+        }
+
+        @keyframes floatAndFade {
+            0% { transform: translateY(0vh) translateX(0vw); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-100vh) translateX(20vw); opacity: 0; }
+        }
+
+        /* Share Modal */
+        .share-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .share-modal-content {
+            background: var(--card-bg-light); /* Blended background */
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            position: relative;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: slideInFromTop 0.4s ease-out;
+            border: 1px solid var(--border-light);
+        }
+        body.dark .share-modal-content {
+            background: var(--card-bg-dark); /* Blended background for dark */
+            border: 1px solid var(--border-dark);
+        }
+
+        .share-modal-content h3 {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+        }
+        body.dark .share-modal-content h3 {
+            color: var(--text-dark);
+        }
+
+        .share-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .share-option-btn {
+            background: #eee;
+            color: #333;
+            padding: 12px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .share-option-btn i {
+            font-size: 1.2em;
+        }
+
+        .share-option-btn.x { background: #000; color: white; }
+        .share-option-btn.facebook { background: #1877F2; color: white; }
+        .share-option-btn.whatsapp { background: #25D366; color: white; }
+        .share-option-btn.linkedin { background: #0A66C2; color: white; }
+        .share-option-btn.telegram { background: #0088CC; color: white; }
+        .share-option-btn.email { background: #D44638; color: white; }
+        .share-option-btn.copy-link { background: #6c757d; color: white; }
+
+        .share-option-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            opacity: 0.9;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: transform 0.2s ease;
+        }
+        body.dark .close-button {
+            color: var(--text-dark);
+        }
+        .close-button:hover {
+            transform: rotate(90deg);
+            color: var(--accent-light);
+        }
+        body.dark .close-button:hover {
+            color: var(--accent-dark);
+        }
+
+        @keyframes slideInFromTop {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Shareable Personality Card specific styles */
+        #personalityCardPreview {
+            background: var(--card-bg-light); /* Blended background */
+            border-radius: 15px;
+            padding: 20px;
+            margin: 2rem auto;
+            max-width: 400px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid var(--border-light);
+            position: relative; /* For the absolute positioning of elements inside */
+            overflow: hidden; /* Ensure content stays within bounds */
+        }
+        body.dark #personalityCardPreview {
+            background: var(--card-bg-dark); /* Blended background for dark */
+            border: 1px solid var(--border-dark);
+        }
+
+        #personalityCardPreview h3 {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            background: linear-gradient(to right, var(--accent-light), var(--glow-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            line-height: 1.2;
+            text-shadow: 0 0 8px rgba(255, 165, 0, 0.3);
+        }
+        body.dark #personalityCardPreview h3 {
+            background: linear-gradient(to right, var(--accent-dark), var(--glow-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(138, 43, 226, 0.4);
+        }
+
+        #personalityCardPreview img {
+            max-width: 90%;
+            height: 200px; /* Fixed height for consistency */
+            object-fit: contain; /* Ensures content fits without cropping */
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            filter: drop-shadow(0 0 8px rgba(0,0,0,0.3)); /* Base shadow */
+            transition: filter 0.3s ease;
+        }
+        #personalityCardPreview p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+        body.dark #personalityCardPreview p {
+            color: var(--text-dark);
+        }
+
+        #downloadCardBtn {
+            margin-top: 1rem;
+            width: auto; /* Override default button width */
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+        }
+
+
+        /* --- Responsive Design (Media Queries) --- */
+
+        /* Tablets and smaller desktops */
+        @media (max-width: 992px) {
+            header {
+                padding: 1rem 2rem;
+            }
+            header h1 {
+                font-size: 2.2rem;
+            }
+            .toggle-btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 1rem;
+            }
+            .container {
+                margin: 2rem auto;
+                padding: 2.5rem;
+                width: 95%;
+            }
+            .question p {
+                font-size: 1.6rem;
+            }
+            .option {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+            }
+            .next-btn, .restart-btn, .share-btn-main, .generate-card-btn {
+                padding: 1rem 2.2rem;
+                font-size: 1.1rem;
+            }
+            .result h2 {
+                font-size: 2.5rem;
+            }
+            .result p {
+                font-size: 1.1rem;
+            }
+            #personalityCardPreview h3 {
+                font-size: 1.8rem;
+            }
+            #personalityCardPreview img {
+                height: 180px; /* Adjust height for smaller screens */
+            }
+        }
+
+        /* Mobile devices */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 1rem;
+                gap: 15px;
+            }
+            header h1 {
+                font-size: 1.8rem;
+                text-align: center;
+            }
+            .toggle-btn {
+                font-size: 0.9rem;
+                padding: 0.5rem 1rem;
+            }
+            .container {
+                margin: 1rem auto;
+                padding: 1.5rem;
+                border-radius: 15px;
+            }
+            .question p {
+                font-size: 1.3rem;
+                margin-bottom: 1.5rem;
+            }
+            .option {
+                flex-direction: row;
+                font-size: 0.95rem;
+                padding: 0.7rem 1rem;
+                margin: 0.8rem 0;
+            }
+            .option .icon {
+                font-size: 1.1rem;
+            }
+            .next-btn, .restart-btn, .share-btn-main, .generate-card-btn {
+                width: 90%;
+                max-width: 300px;
+                padding: 0.9rem 1.8rem;
+                font-size: 1rem;
+            }
+            .progress-bar {
+                height: 20px;
+                margin-bottom: 1.5rem;
+            }
+            .loading-screen {
+                padding: 2rem;
+                font-size: 1.3rem;
+            }
+            .loading-screen i {
+                font-size: 2rem;
+            }
+            .result h2 {
+                font-size: 2rem;
+            }
+            .result p {
+                font-size: 1rem;
+                margin-bottom: 1.5rem;
+            }
+            .raccoon-illustration {
+                max-width: 90%;
+            }
+            .share-modal-content {
+                padding: 1.5rem;
+                max-width: 95%;
+            }
+            .share-option-btn {
+                font-size: 0.85rem;
+                padding: 10px 15px;
+            }
+            .close-button {
+                font-size: 1.5rem;
+                top: 10px;
+                right: 15px;
+            }
+            .warning {
+                width: 90%;
+                font-size: 0.9rem;
+                bottom: 0.5rem;
+            }
+            #personalityCardPreview {
+                padding: 15px;
+            }
+            #personalityCardPreview h3 {
+                font-size: 1.5rem;
+            }
+            #personalityCardPreview p {
+                font-size: 0.85rem;
+            }
+            #personalityCardPreview img {
+                height: 160px; /* Adjust height for mobile */
+            }
+            #downloadCardBtn {
+                font-size: 0.9rem;
+                padding: 0.7rem 1.2rem;
+            }
+        }
+
+        /* Small mobile devices */
+        @media (max-width: 480px) {
+            header {
+                padding: 0.8rem;
+            }
+            header h1 {
+                font-size: 1.5rem;
+            }
+            .toggle-btn {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
+            }
+            .container {
+                padding: 1rem;
+                margin: 0.5rem auto;
+            }
+            .question p {
+                font-size: 1.1rem;
+            }
+            .option {
+                font-size: 0.85rem;
+                padding: 0.6rem 0.8rem;
+            }
+            .next-btn, .restart-btn, .share-btn-main, .generate-card-btn {
+                padding: 0.7rem 1.5rem;
+                font-size: 0.9rem;
+            }
+            .result h2 {
+                font-size: 1.8rem;
+            }
+            .result p {
+                font-size: 0.9rem;
+            }
+            .share-option-btn {
+                font-size: 0.75rem;
+                padding: 8px 12px;
+            }
+            #personalityCardPreview h3 {
+                font-size: 1.3rem;
+            }
+            #personalityCardPreview p {
+                font-size: 0.75rem;
+            }
+            #personalityCardPreview img {
+                height: 140px; /* Even smaller height for tiny screens */
+            }
+        }
+
+    </style>
 </head>
 <body>
-  <div class="curtain" id="curtain"></div>
-  <header>
-    <h1>🦝 Raccoon Quiz</h1>
-    <button class="toggle-btn" id="themeToggle">🌙</button>
-  </header>
-  <div class="container">
-    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-    <form id="quizForm">
-      <div id="questions"></div>
-      <div class="warning" id="warning">🦝 Please select an option!</div>
-      <button type="button" class="next-btn" id="nextBtn">Next ➡️</button>
-    </form>
-    <div class="loading-screen" id="loadingScreen">🔍 Sniffing your raccoon aura...</div>
-    <div class="result" id="result">
-      <h2 id="resultTitle"></h2>
-      <p id="resultText"></p>
-      <button class="restart-btn" id="restartBtn">🔁 Try Again</button>
-      <button class="share-btn" id="shareBtn">📤 Share</button>
+    <div class="particle-container" id="particleContainer"></div>
+    <div class="background-scene light" id="backgroundScene"></div>
+    <div class="celestial-fade" id="celestialFade"></div>
+
+    <header>
+        <h1>Raccoon Odyssey</h1>
+        <button class="toggle-btn" id="themeToggle">
+            <span class="fas fa-moon"></span> <span>Nightfall</span>
+        </button>
+    </header>
+
+    <main class="container">
+        <div id="introScreen" style="text-align: center; padding: 2rem;">
+            <img src="https://mystickermania.com/cdn/stickers/animals/raccoon-sitting-512x512.png" alt="Majestic Raccoon" class="raccoon-illustration" style="max-width: 60%; margin-bottom: 2rem;">
+            <h2>Unearth Your Inner Raccoon: A Nocturnal Journey</h2>
+            <p style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 2rem;">Every creature of the night possesses a unique spirit. Are you a cunning strategist, a playful explorer, or a serene observer? Embark on this enchanting quest to discover the true essence of your nocturnal soul.</p>
+            <button type="button" class="next-btn" id="startQuizBtn"><i class="fas fa-play"></i> Begin Your Foray</button>
+        </div>
+
+        <div id="quizContent" style="display: none;">
+            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+            <form id="quizForm">
+                <div class="question-wrapper">
+                    <div id="questions" class="question-content"></div>
+                </div>
+                <div class="warning" id="warning"><i class="fas fa-exclamation-triangle"></i> Glimmer doesn't bite! Please select an option.</div>
+                <button type="submit" class="next-btn" id="nextBtn">Next Revelation <i class="fas fa-arrow-right"></i></button>
+            </form>
+
+            <div class="loading-screen" id="loadingScreen">
+                <i class="fas fa-paw"></i> The nocturnal oracle is pondering your fate...
+            </div>
+
+            <div class="result" id="result">
+                <h2 id="resultTitle"></h2>
+                <img id="resultImage" src="" alt="Your Raccoon Personality" class="raccoon-illustration">
+                <p id="resultText"></p>
+
+                <div id="personalityCardPreview">
+                    <h3 id="cardTitle"></h3>
+                    <img id="cardImage" src="" alt="Your Raccoon Personality Card">
+                    <p id="cardText"></p>
+                </div>
+                <button class="generate-card-btn" id="downloadCardBtn"><i class="fas fa-download"></i> Download My Card</button>
+
+                <button class="restart-btn" id="restartBtn"><i class="fas fa-redo-alt"></i> Forage Anew</button>
+                <button class="share-btn-main" id="openShareModalBtn"><i class="fas fa-share-alt"></i> Share Your Revelation</button>
+            </div>
+        </div>
+    </main>
+
+    <div class="confetti-container" id="confettiContainer"></div>
+
+    <div id="shareModal" class="share-modal">
+        <div class="share-modal-content">
+            <span class="close-button" id="closeShareModal">&times;</span>
+            <h3>Share Your Raccoon Revelation!</h3>
+            <div class="share-options">
+                <a href="#" class="share-option-btn x" id="shareX"><i class="fab fa-x-twitter"></i> X</a>
+                <a href="#" class="share-option-btn facebook" id="shareFacebook"><i class="fab fa-facebook-f"></i> Facebook</a>
+                <a href="#" class="share-option-btn whatsapp" id="shareWhatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                <a href="#" class="share-option-btn linkedin" id="shareLinkedIn"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
+                <a href="#" class="share-option-btn telegram" id="shareTelegram"><i class="fab fa-telegram-plane"></i> Telegram</a>
+                <a href="#" class="share-option-btn email" id="shareEmail"><i class="fas fa-envelope"></i> Email</a>
+                <a href="#" class="share-option-btn copy-link" id="copyLink"><i class="fas fa-link"></i> Copy Link</a>
+            </div>
+            <p style="font-size: 0.9rem; color: #777;">Spread the word about your nocturnal spirit!</p>
+        </div>
     </div>
-  </div>
-  <script>
-  const personalities = {
-    snuggler: { title: "🧸 Cuddly Snuggler", text: "You love cozy cuddles, soft corners, and warm snacks. You're the raccoon version of hot cocoa on a rainy day." },
-    party: { title: "🎉 Rowdy Raver", text: "You live for midnight mischief, loud laughter, and spontaneous trash-can discos." },
-    shadow: { title: "🌘 Silent Shadow", text: "You’re mysterious, observant, and glide through life with quiet wisdom." },
-    climber: { title: "🌲 Bold Climber", text: "Daring and adventurous, you’re always climbing higher, whether it's trees or dreams." },
-    thinker: { title: "🧐 Wise Thinker", text: "Analytical and calm, you solve problems with grace, logic, and curiosity." },
-    hunter: { title: "🦉 Night Hunter", text: "Sharp-eyed and clever, you hunt for solutions and chase your goals with laser focus." },
-    collector: { title: "✨ Shiny Collector", text: "Drawn to beauty, nostalgia, and sparkles — you gather treasures like memories." },
-    lounger: { title: "😌 Lazy Lounger", text: "Peaceful and relaxed, you remind the world that rest is sacred. Nap goals: unlocked." }
-  };
 
-  const questions = [
-    { question: "Your ideal Saturday night?", options: [
-      { text: "Wrapped in a blanket with snacks", type: "snuggler" },
-      { text: "Dancing by moonlight", type: "party" },
-      { text: "Creeping through shadows", type: "shadow" },
-      { text: "Climbing something fun", type: "climber" }
-    ]},
-    { question: "What’s your secret talent?", options: [
-      { text: "Sensing emotions", type: "snuggler" },
-      { text: "Making noise", type: "party" },
-      { text: "Solving puzzles", type: "thinker" },
-      { text: "Stealing hearts... and food", type: "hunter" }
-    ]},
-    { question: "Choose a motto:", options: [
-      { text: "Every sparkle has a story", type: "collector" },
-      { text: "Laziness is strategy", type: "lounger" },
-      { text: "Climb higher", type: "climber" },
-      { text: "Observe, adapt, conquer", type: "shadow" }
-    ]},
-    { question: "What snack are you stealing first?", options: [
-      { text: "Cinnamon roll", type: "snuggler" },
-      { text: "Glowstick gummies", type: "party" },
-      { text: "Mystery sushi", type: "hunter" },
-      { text: "Nostalgic candy", type: "collector" }
-    ]},
-    { question: "How do you handle drama?", options: [
-      { text: "Silently judge", type: "shadow" },
-      { text: "Plan escape", type: "thinker" },
-      { text: "Dance through it", type: "party" },
-      { text: "Nap instead", type: "lounger" }
-    ]},
-    { question: "What’s your dream raccoon role?", options: [
-      { text: "Trash DJ", type: "party" },
-      { text: "Puzzle master", type: "thinker" },
-      { text: "Sparkle scout", type: "collector" },
-      { text: "Tree ninja", type: "climber" }
-    ]},
-    { question: "How do you make friends?", options: [
-      { text: "Offer snacks & warmth", type: "snuggler" },
-      { text: "Challenge them to climb", type: "climber" },
-      { text: "Trade shiny things", type: "collector" },
-      { text: "Be mysteriously cool", type: "shadow" }
-    ]}
-  ];
 
-  let current = 0;
-  const scores = {};
-  const questionsDiv = document.getElementById("questions");
-  const nextBtn = document.getElementById("nextBtn");
-  const resultDiv = document.getElementById("result");
-  const resultTitle = document.getElementById("resultTitle");
-  const resultText = document.getElementById("resultText");
-  const restartBtn = document.getElementById("restartBtn");
-  const shareBtn = document.getElementById("shareBtn");
-  const warning = document.getElementById("warning");
-  const progressFill = document.getElementById("progressFill");
-  const quizForm = document.getElementById("quizForm");
-  const loadingScreen = document.getElementById("loadingScreen");
-  const curtain = document.getElementById("curtain");
-  const themeToggle = document.getElementById("themeToggle");
+    <script>
+        const personalities = {
+            snuggler: { title: "🧸 The Cuddly Snuggler", text: "You radiate warmth and comfort, finding joy in cozy corners and delightful treats. Like a perfectly aged dumpster, you're a treasure trove of comfort, always ready for a snuggle or a gentle snack raid. Your spirit is as soft as freshly laundered socks.", icon: "fas fa-bed", image: "https://media.tenor.com/BYu7M5JaYEkAAAAi/rascal-raccoon.gif" },
+            party: { title: "🎉 The Rowdy Reveler", text: "Life's a never-ending fiesta for you! You bring the sparkle to every midnight escapade and the rhythm to every trash-can beat. Your energy is infectious, and you're always ready to turn an ordinary night into an extraordinary celebration. The urban jungle is your dance floor!", icon: "fas fa-cocktail", image: "https://media.tenor.com/q3owcRZ2ycQAAAAi/raccoon-needy.gif" },
+            shadow: { title: "🌘 The Enigmatic Shadow", text: "Graceful and discreet, you move with quiet confidence, observing the world's secrets from the comfort of the moonlit eaves. Your wisdom is as deep as a forgotten alley, and your presence is felt, even when unseen. You are the silent, wise guardian of the night.", icon: "fas fa-mask", image: "https://media.tenor.com/bDoZnEGEBTEAAAAi/rascal-ninja.gif" },
+            climber: { title: "🌲 The Ascendant Climber", text: "The world is your vertical playground! You're driven by an insatiable curiosity to reach new heights, whether they're literal trees or ambitious dreams. Challenges are merely stepping stones for your relentless ascent. You embody adventurous spirit and boundless energy.", icon: "fas fa-mountain", image: "https://media.tenor.com/elhnQfoqWfAAAAAi/raccon-bigracc.gif" },
+            thinker: { title: "🧐 The Pondering Pathfinder", text: "With a keen intellect and calm demeanor, you unravel life's complexities with elegant solutions. You're the Sherlock Holmes of the urban wilderness, always analyzing, always strategizing. Your mind is a labyrinth of clever insights and logical pathways.", icon: "fas fa-brain", image: "https://media.tenor.com/kM1ueRdfP7kAAAAi/rascal-rascal-racoon.gif" },
+            hunter: { title: "🦉 The Astute Hunter", text: "Sharp senses and an unwavering focus define you. You pursue your goals with precision and uncover hidden opportunities where others see only obstacles. You are the master of the midnight forage, always resourceful and never missing a beat. The prize is always within your grasp.", icon: "fas fa-crosshairs", image: "https://media.tenor.com/blVeot2Tm60AAAAi/rascal-aha.gif" },
+            collector: { title: "✨ The Glimmering Gatherer", text: "You possess an eye for the extraordinary, a heart for nostalgia, and a passion for all things shiny. Every trinket tells a story in your curated collection, each one a testament to beauty and memory. You find treasure where others see only discarded relics.", icon: "fas fa-gem", image: "https://media.tenor.com/oN2fu5TWI3sAAAAi/rascal.gif" },
+            lounger: { title: "😌 The Serene Lounger", text: "You embody tranquility and remind us all that true happiness lies in moments of blissful repose. Your chill vibes are contagious, a true master of the art of relaxation. The world can rush by, but you'll be here, enjoying every peaceful moment.", icon: "fas fa-couch", image: "https://media.tenor.com/utUyJu9Sz8EAAAAi/rascal.gif" }
+        };
 
-  function renderQuestion() {
-    const q = questions[current];
-    questionsDiv.innerHTML = `
-      <div class="question"><p>${q.question}</p></div>
-      ${q.options.map((opt, i) => `
-        <label>
-          <input type="radio" name="q${current}" value="${opt.type}" />
-          <span class="option">${opt.text}</span>
-        </label>`).join('')}
-    `;
-    progressFill.style.width = `${((current) / questions.length) * 100}%`;
-  }
+        const questions = [
+            { question: "Your ideal Saturday night?", options: [
+                { text: "Wrapped in a blanket, savoring gourmet snacks from a hidden stash.", type: "snuggler" },
+                { text: "Dancing under the streetlights, embracing the rhythm of the city.", type: "party" },
+                { text: "Silently observing the urban tapestry from a hidden, elevated perch.", type: "shadow" },
+                { text: "Exploring the highest branches of a majestic oak, scaling new heights.", type: "climber" }
+            ]},
+            { question: "What’s your most impressive nocturnal talent?", options: [
+                { text: "Empathizing deeply with every creature's feelings, offering solace.", type: "snuggler" },
+                { text: "Creating a joyous ruckus that gets everyone moving and grooving.", type: "party" },
+                { text: "Deciphering complex puzzles with effortless grace and precision.", type: "thinker" },
+                { text: "Mastering the art of silent acquisition (especially delightful findings).", type: "hunter" }
+            ]},
+            { question: "Choose a personal mantra for your nightly adventures:", options: [
+                { text: "Every gleam holds a whispered tale; every treasure, a memory.", type: "collector" },
+                { text: "Strategic repose leads to ultimate serenity and unexpected discoveries.", type: "lounger" },
+                { text: "The sky's the limit, if you're willing to climb beyond the ordinary.", type: "climber" },
+                { text: "Observe, anticipate, excel: the blueprint for nocturnal success.", type: "shadow" }
+            ]},
+            { question: "What forbidden delight are you pursuing first on your midnight forage?", options: [
+                { text: "A warm, perfectly frosted cinnamon roll, sweet and comforting.", type: "snuggler" },
+                { text: "Neon glow-stick gummies for a vibrant, energetic evening.", type: "party" },
+                { text: "An intriguing, mysterious sushi roll with an unknown filling.", type: "hunter" },
+                { text: "That perfectly preserved, vintage candy bar from another era.", type: "collector" }
+            ]},
+            { question: "How do you navigate life's unexpected dramas and sudden downpours?", options: [
+                { text: "With a knowing, silent judgment from afar, observing the chaos unfold.", type: "shadow" },
+                { text: "By meticulously planning the most optimal escape route and avoiding conflict.", type: "thinker" },
+                { text: "Dancing through the chaos with unbridled joy, turning stress into celebration.", type: "party" },
+                { text: "Opting for a strategic power nap instead, letting the storm pass.", type: "lounger" }
+            ]},
+            { question: "What’s your aspirational role in the grand raccoon tapestry?", options: [
+                { text: "The Maestro of Midnight Mixes, orchestrating the ultimate garbage-can concert.", type: "party" },
+                { text: "The Grand Unraveler of Urban Riddles, solving every mystery.", type: "thinker" },
+                { text: "The Chief Curator of Exquisite Treasures, building a legacy of sparkle.", type: "collector" },
+                { text: "The Apex Predator of Lofty Heights, conquering every vertical challenge.", type: "climber" }
+            ]},
+            { question: "How do you forge new alliances and gather your loyal nocturnal crew?", options: [
+                { text: "By offering irresistible treats and a cozy spot for shared warmth.", type: "snuggler" },
+                { text: "Challenging them to a friendly ascent, testing their limits playfully.", type: "climber" },
+                { text: "Exchanging captivating, shiny curiosities and sharing tales of finds.", type: "collector" },
+                { text: "Cultivating an aura of intriguing mystique, drawing them in with curiosity.", type: "shadow" }
+            ]}
+        ];
 
-  function showResult() {
-    loadingScreen.style.display = "none";
-    resultDiv.style.display = "block";
-    restartBtn.style.display = "block";
-    shareBtn.style.display = "block";
+        let current = 0;
+        const scores = {};
+        let currentPersonality = null;
 
-    let entries = Object.entries(scores).sort((a, b) => b[1] - a[1]);
-    const [top, second] = entries;
-    const topPercent = Math.round((top[1] / questions.length) * 100);
-    const secondPercent = second ? Math.round((second[1] / questions.length) * 100) : 0;
+        const introScreen = document.getElementById("introScreen");
+        const quizContent = document.getElementById("quizContent");
+        const startQuizBtn = document.getElementById("startQuizBtn");
+        const questionsDiv = document.getElementById("questions");
+        const nextBtn = document.getElementById("nextBtn");
+        const resultDiv = document.getElementById("result");
+        const resultTitle = document.getElementById("resultTitle");
+        const resultText = document.getElementById("resultText");
+        const resultImage = document.getElementById("resultImage");
+        const restartBtn = document.getElementById("restartBtn");
+        const warning = document.getElementById("warning");
+        const progressFill = document.getElementById("progressFill");
+        const quizForm = document.getElementById("quizForm");
+        const loadingScreen = document.getElementById("loadingScreen");
+        const themeToggle = document.getElementById("themeToggle");
+        const confettiContainer = document.getElementById("confettiContainer");
+        const particleContainer = document.getElementById("particleContainer");
+        const backgroundScene = document.getElementById("backgroundScene");
+        const celestialFade = document.getElementById("celestialFade");
 
-    resultTitle.textContent = `You are a... ${personalities[top[0]].title}`;
-    resultText.innerHTML = `
-      ${personalities[top[0]].text}
-      <br><br>
-      💫 Primary Personality: <strong>${personalities[top[0]].title}</strong> (${topPercent}%)
-      <br>
-      🌙 Secondary Influence: <strong>${personalities[second?.[0]]?.title || "None"}</strong> (${secondPercent}%)
-    `;
-  }
+        const openShareModalBtn = document.getElementById('openShareModalBtn');
+        const shareModal = document.getElementById('shareModal');
+        const closeShareModal = document.getElementById('closeShareModal');
+        const shareX = document.getElementById("shareX");
+        const shareFacebook = document.getElementById("shareFacebook");
+        const shareWhatsapp = document.getElementById("shareWhatsapp");
+        const shareLinkedIn = document.getElementById("shareLinkedIn");
+        const shareTelegram = document.getElementById("shareTelegram");
+        const shareEmail = document.getElementById("shareEmail");
+        const copyLink = document.getElementById("copyLink");
 
-  nextBtn.addEventListener("click", () => {
-    const selected = document.querySelector(`input[name="q${current}"]:checked`);
-    if (!selected) {
-      warning.classList.add("show");
-      return;
-    }
-    warning.classList.remove("show");
-    const type = selected.value;
-    scores[type] = (scores[type] || 0) + 1;
-    current++;
-    if (current < questions.length) {
-      renderQuestion();
-    } else {
-      quizForm.style.display = "none";
-      document.querySelector(".progress-bar").style.display = "none";
-      loadingScreen.style.display = "block";
-      progressFill.style.width = "100%";
-      setTimeout(showResult, 2000);
-    }
-  });
+        const personalityCardPreview = document.getElementById('personalityCardPreview');
+        const cardTitle = document.getElementById('cardTitle');
+        const cardImage = document.getElementById('cardImage');
+        const cardText = document.getElementById('cardText');
+        const downloadCardBtn = document.getElementById('downloadCardBtn');
 
-  restartBtn.addEventListener("click", () => {
-    current = 0;
-    for (let k in scores) delete scores[k];
-    quizForm.style.display = "block";
-    resultDiv.style.display = "none";
-    restartBtn.style.display = "none";
-    shareBtn.style.display = "none";
-    loadingScreen.style.display = "none";
-    document.querySelector(".progress-bar").style.display = "block";
-    renderQuestion();
-  });
 
-  themeToggle.addEventListener("click", () => {
-    curtain.classList.add("active");
-    setTimeout(() => {
-      document.body.classList.toggle("dark");
-    }, 300);
-    setTimeout(() => {
-      curtain.classList.remove("active");
-    }, 1000);
-  });
+        // --- Functions ---
 
-  renderQuestion();
-  </script>
+        function generateParticles(count) {
+            particleContainer.innerHTML = '';
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                const size = Math.random() * 5 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${Math.random() * 100}vw`;
+                particle.style.top = `${Math.random() * 100}vh`;
+                particle.style.animationDelay = `${Math.random() * 15}s`;
+                particle.style.animationDuration = `${10 + Math.random() * 10}s`;
+                particleContainer.appendChild(particle);
+            }
+        }
+
+        function renderQuestion() {
+            const q = questions[current];
+            let optionsHtml = q.options.map((opt, i) => `
+                <label>
+                    <input type="radio" name="q${current}" value="${opt.type}" />
+                    <span class="option"><i class="icon ${personalities[opt.type].icon}"></i> ${opt.text}</span>
+                </label>`).join('');
+
+            questionsDiv.innerHTML = `
+                <div class="question"><p>${q.question}</p></div>
+                ${optionsHtml}
+            `;
+            progressFill.style.width = `${((current) / questions.length) * 100}%`;
+
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const isChecked = this.previousElementSibling.checked;
+                    document.querySelectorAll('input[name="q' + current + '"]').forEach(radio => {
+                        radio.checked = false;
+                    });
+                    if (!isChecked) {
+                        this.previousElementSibling.checked = true;
+                    }
+                    warning.classList.remove("show");
+                });
+            });
+        }
+
+        function showResult() {
+            loadingScreen.style.display = "none";
+            resultDiv.style.display = "block";
+
+            let entries = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+            const [top, second] = entries;
+            const topPercent = Math.round((top[1] / questions.length) * 100);
+            const secondPercent = second ? Math.round((second[1] / questions.length) * 100) : 0;
+
+            currentPersonality = personalities[top[0]];
+            const secondPersonality = personalities[second?.[0]];
+
+            resultTitle.innerHTML = `<span class="${currentPersonality.icon}"></span> ${currentPersonality.title}!`;
+            resultImage.src = currentPersonality.image;
+            resultImage.classList.add(document.body.classList.contains('dark') ? 'image-glow-dark' : 'image-glow-light');
+            resultText.innerHTML = `
+                ${currentPersonality.text}
+                <br><br>
+                💫 Primary Nocturnal Trait: <strong>${currentPersonality.title}</strong> (${topPercent}%)
+                <br>
+                🌙 Whispers of Influence: <strong>${secondPersonality?.title || "None"}</strong> (${secondPercent}%)
+            `;
+
+            cardTitle.innerHTML = `<span class="${currentPersonality.icon}"></span> ${currentPersonality.title}`;
+            cardImage.src = currentPersonality.image;
+            cardImage.classList.add(document.body.classList.contains('dark') ? 'image-glow-dark' : 'image-glow-light');
+            cardText.innerHTML = currentPersonality.text.split('. ')[0] + '.';
+
+            triggerConfetti();
+            updateShareLinks(currentPersonality.title, currentPersonality.image);
+
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function updateShareLinks(personality, imageUrl) {
+            const quizUrl = window.location.href.split('?')[0];
+            const encodedUrl = encodeURIComponent(quizUrl);
+            const title = "Raccoon Odyssey: Discover Your Nocturnal Soul!";
+            const description = `I just discovered my inner raccoon personality! I'm a "${personality}"! Find out yours at: ${quizUrl}`;
+            const encodedDescription = encodeURIComponent(description);
+
+            shareX.href = `https://twitter.com/intent/tweet?text=${encodedDescription}`;
+            shareFacebook.href = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedDescription}`;
+            shareWhatsapp.href = `https://api.whatsapp.com/send?text=${encodedDescription}`;
+            shareLinkedIn.href = `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}&title=${encodeURIComponent(title)}&summary=${encodedDescription}`;
+            shareTelegram.href = `https://t.me/share/url?url=${encodedUrl}&text=${encodedDescription}`;
+            shareEmail.href = `mailto:?subject=${encodeURIComponent(title)}&body=${encodedDescription}`;
+
+            copyLink.onclick = (e) => {
+                e.preventDefault();
+                navigator.clipboard.writeText(quizUrl).then(() => {
+                    alert("Link copied to clipboard!");
+                    shareModal.style.display = "none";
+                }).catch(err => {
+                    console.error('Failed to copy text: ', err);
+                    alert("Failed to copy link. Please copy manually: " + quizUrl);
+                });
+            };
+        }
+
+        function triggerConfetti() {
+            confettiContainer.innerHTML = '';
+            for (let i = 0; i < 70; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = `${Math.random() * 100}vw`;
+                confetti.style.top = `${Math.random() * -20}vh`;
+                confetti.style.width = `${Math.random() * 8 + 5}px`;
+                confetti.style.height = `${Math.random() * 8 + 5}px`;
+                confetti.style.animationDelay = `${Math.random() * 2}s`;
+                confetti.style.animationDuration = `${3 + Math.random() * 2}s`;
+                confetti.style.opacity = '0';
+                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                if (Math.random() < 0.3) {
+                    confetti.style.borderRadius = '0';
+                    confetti.style.transform += ` rotate(${Math.random() * 90}deg)`;
+                } else if (Math.random() < 0.6) {
+                    confetti.style.borderRadius = '50%';
+                } else {
+                    confetti.style.borderRadius = '20% / 50%';
+                }
+
+                confettiContainer.appendChild(confetti);
+            }
+        }
+
+        // --- Event Listeners ---
+
+        startQuizBtn.addEventListener("click", () => {
+            introScreen.style.display = "none";
+            quizContent.style.display = "block";
+            renderQuestion();
+            quizContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        quizForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            const selected = document.querySelector(`input[name="q${current}"]:checked`);
+            if (!selected) {
+                warning.classList.add("show");
+                setTimeout(() => warning.classList.remove("show"), 2500);
+                return;
+            }
+            warning.classList.remove("show");
+
+            const type = selected.value;
+            scores[type] = (scores[type] || 0) + 1;
+
+            const currentQuestionContent = questionsDiv.querySelector('.question-content');
+            if (currentQuestionContent) {
+                currentQuestionContent.classList.add('fade-out');
+            }
+
+            setTimeout(() => {
+                current++;
+                if (current < questions.length) {
+                    renderQuestion();
+                    const newQuestionContent = questionsDiv.querySelector('.question-content');
+                    if (newQuestionContent) {
+                        newQuestionContent.classList.remove('fade-out');
+                        newQuestionContent.style.opacity = 0;
+                        newQuestionContent.style.transform = "translateY(20px)";
+
+                        void newQuestionContent.offsetWidth;
+
+                        newQuestionContent.style.opacity = 1;
+                        newQuestionContent.style.transform = "translateY(0)";
+                    }
+                    document.querySelector('.container').scrollTop = 0;
+
+                } else {
+                    quizForm.style.display = "none";
+                    document.querySelector(".progress-bar").style.display = "none";
+                    loadingScreen.style.display = "block";
+                    progressFill.style.width = "100%";
+                    setTimeout(showResult, 3000);
+                }
+            }, 400);
+        });
+
+        restartBtn.addEventListener("click", () => {
+            current = 0;
+            for (let k in scores) delete scores[k];
+            quizForm.style.display = "block";
+            resultDiv.style.display = "none";
+            loadingScreen.style.display = "none";
+            document.querySelector(".progress-bar").style.display = "block";
+            confettiContainer.innerHTML = '';
+            introScreen.style.display = "block";
+            quizContent.style.display = "none";
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        themeToggle.addEventListener("click", () => {
+            celestialFade.classList.add('active');
+
+            setTimeout(() => {
+                backgroundScene.classList.toggle("dark");
+                backgroundScene.classList.toggle("light");
+
+                document.body.classList.toggle("dark");
+
+                if (document.body.classList.contains("dark")) {
+                    themeToggle.innerHTML = '<span class="fas fa-sun"></span> <span>Daybreak</span>';
+                    document.querySelector('.raccoon-illustration').classList.remove('image-glow-light');
+                    document.querySelector('.raccoon-illustration').classList.add('image-glow-dark');
+                    if (resultImage.src) {
+                        resultImage.classList.remove('image-glow-light');
+                        resultImage.classList.add('image-glow-dark');
+                    }
+                    if (cardImage.src) {
+                        cardImage.classList.remove('image-glow-light');
+                        cardImage.classList.add('image-glow-dark');
+                    }
+                } else {
+                    themeToggle.innerHTML = '<span class="fas fa-moon"></span> <span>Nightfall</span>';
+                    document.querySelector('.raccoon-illustration').classList.remove('image-glow-dark');
+                    document.querySelector('.raccoon-illustration').classList.add('image-glow-light');
+                    if (resultImage.src) {
+                        resultImage.classList.remove('image-glow-dark');
+                        resultImage.classList.add('image-glow-light');
+                    }
+                    if (cardImage.src) {
+                        cardImage.classList.remove('image-glow-dark');
+                        cardImage.classList.add('image-glow-light');
+                    }
+                }
+            }, 350);
+
+            setTimeout(() => {
+                celestialFade.classList.remove('active');
+            }, 700);
+
+            generateParticles(50);
+        });
+
+
+        // Share Modal events
+        openShareModalBtn.addEventListener('click', () => {
+            shareModal.style.display = 'flex';
+        });
+
+        closeShareModal.addEventListener('click', () => {
+            shareModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target == shareModal) {
+                shareModal.style.display = 'none';
+            }
+        });
+
+        // Download Personality Card
+        downloadCardBtn.addEventListener('click', () => {
+            const originalResultImageClassList = resultImage.classList.value;
+            const originalCardImageClassList = cardImage.classList.value;
+
+            resultImage.classList.remove('image-glow-light', 'image-glow-dark');
+            cardImage.classList.remove('image-glow-light', 'image-glow-dark');
+
+
+            html2canvas(personalityCardPreview, {
+                useCORS: true,
+                backgroundColor: null
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `${currentPersonality.title.replace(/ /g, '_')}_RaccoonCard.png`;
+                link.href = canvas.toDataURL('image/png');
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                resultImage.className = originalResultImageClassList;
+                cardImage.className = originalCardImageClassList;
+
+            }).catch(error => {
+                console.error("Error generating card:", error);
+                alert("Failed to generate card. Please try again.");
+            });
+        });
+
+
+        // Initial setup
+        generateParticles(50);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            introScreen.style.display = 'block';
+            quizContent.style.display = 'none';
+
+            if (document.body.classList.contains('dark')) {
+                backgroundScene.classList.add('dark');
+                themeToggle.innerHTML = '<span class="fas fa-sun"></span> <span>Daybreak</span>';
+                document.querySelector('.raccoon-illustration').classList.add('image-glow-dark');
+            } else {
+                backgroundScene.classList.add('light');
+                themeToggle.innerHTML = '<span class="fas fa-moon"></span> <span>Nightfall</span>';
+                document.querySelector('.raccoon-illustration').classList.add('image-glow-light');
+            }
+        });
+    </script>
 </body>
 </html>
