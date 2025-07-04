@@ -4,21 +4,30 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>About Us – Raccoon Reverie</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     :root {
       --light-bg: url('https://myprivateparis.com/wp-content/uploads/2023/09/231943-825-auto.jpeg');
       --dark-bg: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1200px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg');
 
-      --light-text: #3f3f3f;
-      --light-accent: #b495d1;
-      --light-button: #efd6eb;
-      --light-card: rgba(255, 255, 255, 0.65);
+      --light-text: #4a4e69;
+      --light-accent: #7868e6;
+      --light-button-bg: rgba(220, 230, 255, 0.7);
+      --light-button-border: rgba(120, 104, 230, 0.3); /* Softer border */
+      --light-card-bg: rgba(255, 255, 255, 0.7);
+      --light-header-bg: rgba(255, 255, 255, 0.35); /* Slightly more transparent */
+      --light-shadow-color: rgba(120, 104, 230, 0.15); /* Softer shadow */
 
-      --dark-text: #f0e9dc;
-      --dark-accent: #ffcc33;
-      --dark-button: #ffe066;
-      --dark-card: rgba(13,27,42,0.75);
+      --dark-text: #e0e0e0;
+      --dark-accent: #ffb703;
+      --dark-button-bg: rgba(45, 60, 90, 0.7);
+      --dark-button-border: rgba(255, 183, 3, 0.3); /* Softer border */
+      --dark-card-bg: rgba(15, 25, 40, 0.8);
+      --dark-header-bg: rgba(0, 0, 0, 0.45); /* Slightly more transparent */
+      --dark-shadow-color: rgba(255, 183, 3, 0.1); /* Softer shadow */
+
+      --transition-duration: 0.9s;
+      --transition-ease: cubic-bezier(0.25, 0.8, 0.25, 1);
     }
 
     body {
@@ -29,8 +38,9 @@
       display: flex;
       flex-direction: column;
       min-height: 100vh;
-      transition: background 1s ease, color 0.6s ease;
+      transition: background var(--transition-duration) var(--transition-ease), color 0.6s ease;
       overflow-x: hidden;
+      cursor: default;
     }
 
     body.dark {
@@ -39,153 +49,252 @@
     }
 
     header {
-      background: rgba(255,255,255,0.5);
+      background: var(--light-header-bg);
       backdrop-filter: blur(8px);
-      padding: 1rem 2rem;
+      padding: 1rem 2.5rem;
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
-      z-index: 2;
+      z-index: 10;
+      transition: background var(--transition-duration) var(--transition-ease);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15); /* Even softer border */
     }
 
     body.dark header {
-      background: rgba(0,0,0,0.5);
+      background: var(--dark-header-bg);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.25); /* Even softer border */
+    }
+
+    header .header-content {
+        max-width: 1200px;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 
     header h1 {
       margin: 0;
-      font-family: 'Playfair Display', serif;
-      font-size: 1.8rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
       color: var(--light-accent);
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      letter-spacing: 0.4px;
+      gap: 0.6rem;
+      letter-spacing: 0.8px;
+      font-weight: 600;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      transition: color 0.6s ease;
     }
 
     body.dark header h1 {
       color: var(--dark-accent);
+      text-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    header h1 .raccoon-paw {
+      font-size: 1.6em;
+      vertical-align: middle;
+      display: inline-block;
+      transform: rotate(-10deg);
+      transition: transform 0.3s ease;
+    }
+
+    header h1:hover .raccoon-paw {
+      transform: rotate(5deg);
     }
 
     nav a, .toggle-mode {
-      margin-left: 12px;
-      padding: 10px 20px;
-      border-radius: 30px;
-      font-weight: 600;
-      background: linear-gradient(145deg, #f6dbe9, #fef8ff);
-      color: #4d3c44;
-      border: 2px solid var(--light-accent);
+      margin-left: 18px;
+      padding: 10px 22px;
+      border-radius: 50px;
+      font-weight: 400;
+      background: var(--light-button-bg);
+      color: var(--light-text);
+      border: 1px solid var(--light-button-border);
+      box-shadow: 0 3px 8px var(--light-shadow-color); /* Lighter shadow */
+      transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1); /* Faster, smoother interaction */
+      backdrop-filter: blur(4px);
+      position: relative;
+      overflow: hidden;
+      font-size: 0.95rem;
       text-decoration: none;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-      transition: all 0.3s ease;
-      backdrop-filter: blur(6px);
-    }
-
-    .toggle-mode {
-      cursor: pointer;
     }
 
     nav a:hover, .toggle-mode:hover {
-      transform: translateY(-2px) scale(1.04);
-      box-shadow: 0 6px 18px rgba(172, 130, 180, 0.25);
+      transform: translateY(-1px) scale(1.005); /* Very subtle lift */
+      box-shadow: 0 5px 12px var(--light-shadow-color); /* Slightly more pronounced on hover */
+      border-color: var(--light-accent);
+      color: var(--light-accent);
     }
 
     body.dark nav a,
     body.dark .toggle-mode {
-      background: radial-gradient(circle at top left, #ffe066 0%, #ffcc33 80%);
-      color: #222;
-      border: 2px solid var(--dark-accent);
-      box-shadow: 0 4px 12px rgba(255, 204, 51, 0.3);
+      background: var(--dark-button-bg);
+      color: var(--dark-text);
+      border: 1px solid var(--dark-button-border);
+      box-shadow: 0 3px 8px var(--dark-shadow-color);
+    }
+
+    body.dark nav a:hover,
+    body.dark .toggle-mode:hover {
+      box-shadow: 0 5px 12px var(--dark-shadow-color);
+      border-color: var(--dark-accent);
+      color: var(--dark-accent);
+    }
+
+    .toggle-mode {
+      cursor: pointer;
+      font-size: 1.2rem;
     }
 
     .content {
       flex: 1;
-      max-width: 800px;
-      margin: 3rem auto;
-      padding: 2.5rem 2rem;
-      background: var(--light-card);
-      border-radius: 20px;
-      border: 2px solid var(--light-accent);
-      backdrop-filter: blur(6px);
-      box-shadow: 0 12px 24px rgba(0,0,0,0.05);
+      max-width: 850px;
+      margin: 4rem auto;
+      padding: 3rem;
+      background: var(--light-card-bg);
+      border-radius: 25px;
+      border: 1px solid rgba(120, 104, 230, 0.1); /* Even lighter border */
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
       text-align: center;
       position: relative;
+      overflow: hidden;
+      transition: all var(--transition-duration) var(--transition-ease);
     }
 
     body.dark .content {
-      background: var(--dark-card);
-      border: 2px solid var(--dark-accent);
+      background: var(--dark-card-bg);
+      border: 1px solid rgba(255, 183, 3, 0.1);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     }
 
     .content h2 {
-      font-size: 2.4rem;
-      font-family: 'Playfair Display', serif;
+      font-size: 2.6rem;
+      font-family: 'Cormorant Garamond', serif;
       color: var(--light-accent);
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
       cursor: pointer;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      position: relative;
+      display: inline-block;
+      transition: color 0.6s ease;
+    }
+
+    .content h2:after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: -8px;
+      transform: translateX(-50%);
+      width: 50%;
+      height: 2px;
+      background: var(--light-accent);
+      transition: width 0.3s ease, background 0.3s ease;
+    }
+
+    .content h2:hover:after {
+      width: 70%;
     }
 
     body.dark .content h2 {
       color: var(--dark-accent);
     }
 
+    body.dark .content h2:after {
+      background: var(--dark-accent);
+    }
+
     .content p {
-      font-size: 1.2rem;
-      line-height: 1.6;
+      font-size: 1.1rem;
+      line-height: 1.7;
       color: inherit;
+      max-width: 700px;
+      margin: 1rem auto;
+      font-weight: 300;
+    }
+
+    .content p strong {
+      font-weight: 500;
+      color: var(--light-accent);
+      transition: color 0.6s ease;
+    }
+
+    body.dark .content p strong {
+      color: var(--dark-accent);
     }
 
     .raccoon-img {
-      width: 130px;
-      margin-top: 2rem;
-      filter: drop-shadow(0 0 5px var(--light-accent));
-      transition: transform 0.3s ease, filter 0.3s ease;
+      width: 140px;
+      margin-top: 2.5rem;
+      filter: drop-shadow(0 0 6px var(--light-accent));
+      transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), filter 0.4s ease;
+      animation: float 4s ease-in-out infinite alternate;
     }
 
     .raccoon-img:hover {
-      transform: translateY(-4px);
+      transform: translateY(-6px) scale(1.02);
     }
 
     body.dark .raccoon-img {
-      filter: drop-shadow(0 0 6px var(--dark-accent));
+      filter: drop-shadow(0 0 8px var(--dark-accent));
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-8px); }
     }
 
     .hint {
-      font-size: 0.9rem;
-      margin-top: 1.5rem;
-      opacity: 0.35;
+      font-size: 0.95rem;
+      margin-top: 2rem;
+      opacity: 0.65;
       font-style: italic;
-      letter-spacing: 0.4px;
+      letter-spacing: 0.5px;
+      color: var(--light-text);
+      transition: opacity 0.6s ease, color 0.6s ease;
+    }
+
+    body.dark .hint {
+      color: var(--dark-text);
     }
 
     .easter-egg {
       display: none;
       opacity: 0;
-      font-size: 1rem;
+      font-size: 1.05rem;
+      font-family: 'Cormorant Garamond', serif;
       font-style: italic;
-      margin-top: 3rem;
-      animation: fadeFloatGlow 4s ease forwards;
+      margin-top: 3.5rem;
+      animation: fadeFloatGlow 5s ease forwards;
       text-shadow: 0 0 10px var(--light-accent), 0 0 20px var(--light-accent);
+      color: var(--light-text);
+      line-height: 1.5;
     }
 
     body.dark .easter-egg {
       text-shadow: 0 0 10px var(--dark-accent), 0 0 20px var(--dark-accent);
+      color: var(--dark-text);
     }
 
     @keyframes fadeFloatGlow {
-      0% { opacity: 0; transform: translateY(10px); }
-      50% { opacity: 0.4; }
-      100% { opacity: 0.65; transform: translateY(0); }
+      0% { opacity: 0; transform: translateY(15px); }
+      50% { opacity: 0.6; }
+      100% { opacity: 1; transform: translateY(0); }
     }
 
     .pulse {
       position: absolute;
-      width: 6px;
-      height: 6px;
+      width: 7px;
+      height: 7px;
       background: var(--light-accent);
       border-radius: 50%;
       opacity: 0;
-      animation: pulse 5s ease-in-out infinite;
+      animation: pulse 6s ease-in-out infinite;
+      filter: blur(0.5px);
+      will-change: transform, opacity;
     }
 
     body.dark .pulse {
@@ -193,56 +302,109 @@
     }
 
     @keyframes pulse {
-      0%, 100% { opacity: 0; transform: scale(0.7); }
+      0%, 100% { opacity: 0; transform: scale(0.6); }
       50% { opacity: 0.2; transform: scale(1.1); }
     }
 
     .portal {
       position: fixed;
-      width: 200px;
-      height: 200px;
+      width: 250px;
+      height: 250px;
       border-radius: 50%;
       pointer-events: none;
       z-index: 9999;
       transform: scale(0);
       opacity: 0.9;
-      background: radial-gradient(circle at center, rgba(255,255,255,0.8) 0%, transparent 80%);
-      box-shadow: 0 0 30px 10px rgba(255,255,255,0.5),
-                  0 0 60px 30px rgba(200,150,255,0.3);
-      animation: portalExpand 0.9s ease-out forwards;
+      background: radial-gradient(circle at center, rgba(175,200,255,0.9) 0%, transparent 80%);
+      box-shadow: 0 0 40px 15px rgba(175,200,255,0.6),
+                  0 0 80px 40px rgba(120,104,230,0.4);
+      animation: portalExpand 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+      transform-origin: center center;
     }
 
     body.dark .portal {
-      background: radial-gradient(circle at center, rgba(255,249,215,0.9) 0%, transparent 80%);
-      box-shadow: 0 0 30px 10px rgba(255,235,180,0.6),
-                  0 0 60px 30px rgba(255,200,100,0.3);
+      background: radial-gradient(circle at center, rgba(255,240,150,0.95) 0%, transparent 80%);
+      box-shadow: 0 0 40px 15px rgba(255,240,150,0.7),
+                  0 0 80px 40px rgba(255,183,3,0.4);
     }
 
     @keyframes portalExpand {
-      0% { transform: scale(0.2); opacity: 1; filter: blur(1px); }
-      50% { transform: scale(6); opacity: 1; filter: blur(0px); }
-      100% { transform: scale(10); opacity: 0; filter: blur(6px); }
+      0% { transform: scale(0.1); opacity: 1; filter: blur(2px); }
+      30% { transform: scale(0.8); opacity: 1; filter: blur(0px); }
+      70% { transform: scale(5); opacity: 0.8; filter: blur(0px); }
+      100% { transform: scale(15); opacity: 0; filter: blur(8px); }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        padding: 0.8rem;
+      }
+      header .header-content {
+        flex-direction: column;
+      }
+      header h1 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        gap: 0.4rem;
+      }
+      header h1 .raccoon-paw {
+        font-size: 1.4em;
+      }
+      nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      nav a, .toggle-mode {
+        margin: 5px;
+        padding: 8px 15px;
+        font-size: 0.85rem;
+      }
+      .toggle-mode {
+        font-size: 1rem;
+      }
+      .content {
+        margin: 2rem 1rem;
+        padding: 2rem 1.5rem;
+        border-radius: 15px;
+      }
+      .content h2 {
+        font-size: 2.2rem;
+      }
+      .content p {
+        font-size: 1rem;
+      }
+      .raccoon-img {
+        width: 100px;
+      }
+      .portal {
+        width: 150px;
+        height: 150px;
+      }
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>🐾 Raccoon Reverie</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="facts.html">Facts</a>
-      <a href="quiz.html">Quiz</a>
-      <button class="toggle-mode" id="themeToggle">🌙</button>
-    </nav>
+    <div class="header-content">
+      <h1><span class="raccoon-paw">🐾</span> Raccoon Reverie</h1>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="facts.html">Facts</a>
+        <a href="quiz.html">Quiz</a>
+        <button class="toggle-mode" id="themeToggle">🌙</button>
+      </nav>
+    </div>
   </header>
 
   <div class="content">
-    <h2 id="aboutTitle">About Us</h2>
+    <h2 id="aboutTitle">A Bit About Our World</h2>
     <div id="aboutText"></div>
     <img class="raccoon-img" src="https://mystickermania.com/cdn/stickers/animals/raccoon-sitting-512x512.png" alt="Cute Raccoon">
-    <p class="hint">Psst… Try switching the theme for a dreamy surprise 🌗</p>
+    <p class="hint">Psst… Tap the title a few times for a hidden message 🤫</p>
 
-    <p class="easter-egg" id="easterEgg">I made this after getting inspired by you, Quackers... and I love you. This little world is for you.</p>
+    <p class="easter-egg" id="easterEgg">For you, Quackers, a little piece of my heart, where even raccoons dream under painted skies. This world is crafted with love, just for you.</p>
   </div>
 
   <script>
@@ -252,27 +414,30 @@
     const aboutTitle = document.getElementById('aboutTitle');
     const easterEgg = document.getElementById('easterEgg');
     let clickCount = 0;
+    let clickTimer = null;
 
     const lightText = `
-      <p><strong>Doofy</strong> made this dreamy lily-filled place for peaceful raccoons and lovers of Monet's skies.</p>
-      <p>Where the pond shimmers and petals drift, raccoons reflect on beauty 🪷</p>
-      <p>Stay a while... or float into the stars.</p>
+      <p>Here at <strong>Raccoon Reverie</strong>, we believe in the quiet magic found in nature's embrace. This peaceful corner, inspired by tranquil lily ponds, invites you to discover the serene world of our beloved raccoons. We're dedicated to celebrating their charm, intelligence, and playful spirit.</p>
+      <p>This whimsical realm was lovingly brought to life by <strong>Doofy</strong>, a creation born from passion and a touch of reverie.</p>
+      <p>From gentle reflections on shimmering waters to the soft rustle of leaves, every detail is designed for a moment of calm and wonder. Join us as we explore the simple beauty that surrounds us.</p>
     `;
 
     const darkText = `
-      <p><strong>Doofy</strong> created this under a swirling night sky, guided by cosmic calm and raccoon whimsy.</p>
-      <p>Let your mind wander among constellations with your favorite trash panda friends 🌌🦝</p>
-      <p>When you’re ready for daylight, it waits just a click away.</p>
+      <p>Under the vast, starlit canvas, <strong>Raccoon Reverie</strong> transforms into a cosmic journey, inspired by the infinite wonders of the night sky. We invite you to explore the nocturnal charm of raccoons as they navigate a world bathed in moonlight and stardust.</p>
+      <p>This enchanting universe was lovingly brought to life by <strong>Doofy</strong>, a creation born from passion and a touch of reverie.</p>
+      <p>Here, every constellation tells a story, and every shadow holds a secret. Let your imagination drift among the stars with these fascinating creatures, where the night holds endless possibilities.</p>
     `;
 
     function spawnGlows() {
       document.querySelectorAll('.pulse').forEach(e => e.remove());
-      for (let i = 0; i < 15; i++) {
+      const numPulses = window.innerWidth > 768 ? 25 : 15;
+      for (let i = 0; i < numPulses; i++) {
         const el = document.createElement('div');
         el.className = 'pulse';
         el.style.left = `${Math.random() * 100}vw`;
         el.style.top = `${Math.random() * 100}vh`;
-        el.style.animationDelay = `${Math.random() * 5}s`;
+        el.style.animationDelay = `${Math.random() * 6}s`;
+        el.style.animationDuration = `${4 + Math.random() * 4}s`;
         body.appendChild(el);
       }
     }
@@ -280,8 +445,8 @@
     function toggleDarkMode(e) {
       const portal = document.createElement('div');
       portal.className = 'portal';
-      portal.style.left = `${e.clientX - 100}px`;
-      portal.style.top = `${e.clientY - 100}px`;
+      portal.style.left = `${e.clientX - 125}px`;
+      portal.style.top = `${e.clientY - 125}px`;
       document.body.appendChild(portal);
 
       setTimeout(() => {
@@ -290,16 +455,21 @@
         aboutText.innerHTML = isDark ? darkText : lightText;
         localStorage.setItem('theme', isDark ? 'dark' : 'light');
         spawnGlows();
-      }, 250);
+      }, 500);
 
-      setTimeout(() => portal.remove(), 1000);
+      setTimeout(() => portal.remove(), 1200);
     }
 
     function applyStoredTheme() {
       const isDark = localStorage.getItem('theme') === 'dark';
-      if (isDark) body.classList.add('dark');
-      toggleBtn.textContent = isDark ? '☀️' : '🌙';
-      aboutText.innerHTML = isDark ? darkText : lightText;
+      if (isDark) {
+        body.classList.add('dark');
+        toggleBtn.textContent = '☀️';
+        aboutText.innerHTML = darkText;
+      } else {
+        toggleBtn.textContent = '🌙';
+        aboutText.innerHTML = lightText;
+      }
       spawnGlows();
     }
 
@@ -307,16 +477,31 @@
     window.addEventListener('load', applyStoredTheme);
 
     document.addEventListener('mousemove', e => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 10;
-      const y = (e.clientY / window.innerHeight - 0.5) * 10;
+      const x = (e.clientX / window.innerWidth - 0.5) * 15;
+      const y = (e.clientY / window.innerHeight - 0.5) * 15;
       body.style.backgroundPosition = `calc(50% + ${x}px) calc(50% + ${y}px)`;
     });
 
     aboutTitle.addEventListener('click', () => {
       clickCount++;
+
+      clearTimeout(clickTimer);
+
       if (clickCount === 3) {
         easterEgg.style.display = 'block';
+        easterEgg.style.opacity = '0';
+        setTimeout(() => easterEgg.style.opacity = '1', 10);
+        clickCount = 0;
+      } else {
+        clickTimer = setTimeout(() => {
+          clickCount = 0;
+        }, 500);
       }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        easterEgg.style.display = 'none';
+        easterEgg.style.opacity = '0';
     });
   </script>
 </body>
