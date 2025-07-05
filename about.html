@@ -261,6 +261,21 @@
       color: var(--dark-text);
     }
 
+    /* Added style for the new hint */
+    .explore-hint {
+        font-size: 0.9rem;
+        margin-top: 1rem;
+        opacity: 0.7;
+        font-style: italic;
+        letter-spacing: 0.5px;
+        color: var(--light-text);
+        transition: opacity 0.6s ease, color 0.6s ease;
+    }
+
+    body.dark .explore-hint {
+        color: var(--dark-text);
+    }
+
     .easter-egg {
       display: none;
       opacity: 0;
@@ -317,7 +332,7 @@
       opacity: 0.9;
       background: radial-gradient(circle at center, rgba(175,200,255,0.9) 0%, transparent 80%);
       box-shadow: 0 0 40px 15px rgba(175,200,255,0.6),
-                  0 0 80px 40px rgba(120,104,230,0.4);
+                    0 0 80px 40px rgba(120,104,230,0.4);
       animation: portalExpand 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
       transform-origin: center center;
     }
@@ -325,7 +340,7 @@
     body.dark .portal {
       background: radial-gradient(circle at center, rgba(255,240,150,0.95) 0%, transparent 80%);
       box-shadow: 0 0 40px 15px rgba(255,240,150,0.7),
-                  0 0 80px 40px rgba(255,183,3,0.4);
+                    0 0 80px 40px rgba(255,183,3,0.4);
     }
 
     @keyframes portalExpand {
@@ -390,7 +405,7 @@
     <div class="header-content">
       <h1><span class="raccoon-paw">🐾</span> Raccoon Reverie</h1>
       <nav>
-        <a href="index.html">Home</a>
+        <a href="index.html">Home</a> 
         <a href="facts.html">Facts</a>
         <a href="quiz.html">Quiz</a>
         <button class="toggle-mode" id="themeToggle">🌙</button>
@@ -403,6 +418,8 @@
     <div id="aboutText"></div>
     <img class="raccoon-img" src="https://mystickermania.com/cdn/stickers/animals/raccoon-sitting-512x512.png" alt="Cute Raccoon">
     <p class="hint">Psst… Tap the title a few times for a hidden message 🤫</p>
+    
+    <p class="explore-hint">✨ There's more to discover, why not wander through our other realms? ✨</p>
 
     <p class="easter-egg" id="easterEgg">For you, Quackers, a little piece of my heart, where even raccoons dream under painted skies. This world is crafted with love, just for you.</p>
   </div>
